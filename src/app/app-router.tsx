@@ -1,27 +1,32 @@
 import { createBrowserRouter, RouterProvider, Outlet } from "react-router-dom";
 import { appPaths } from "./app-paths";
-import { PageLayout } from "../features/ui";
+import { Home, Create, Profile, Explore } from "../features";
+
 
 const router = createBrowserRouter([
   {
     path: "/",
     element: (
-      <PageLayout>
+      <>
         <Outlet />
-      </PageLayout>
+      </>
     ),
     children: [
       {
         path: "/",
-        element: <h1>hey there 1</h1>,
+        element: <Home />,
       },
       {
-        path: appPaths.sell,
-        element: <h1>hey there 2</h1>,
+        path: appPaths.profile,
+        element: <Profile />
       },
       {
-        path: appPaths.quiz,
-        element: <h1>hey there 3</h1>,
+        path: appPaths.create,
+        element: <Create />,
+      },
+      {
+        path: appPaths.explore,
+        element: <Explore />,
       },
     ],
   },

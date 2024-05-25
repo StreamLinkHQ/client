@@ -1,1 +1,2 @@
-export { PageLayout } from "./page-layout"
+export { HomeLayout } from "./home-layout"
+export { AuthLayout } from "./auth-layout"

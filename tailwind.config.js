@@ -5,7 +5,14 @@ export default {
     "./src/**/*.{js,ts,jsx,tsx}",
   ],
   theme: {
-    extend: {},
+    extend: {
+      fontFamily: {
+        "merriweather": ["Merriweather", "serif"]
+      }, 
+      colors: {
+        "yellow": "#EDF042"
+      } 
+    },
   },
   plugins: [],
 }

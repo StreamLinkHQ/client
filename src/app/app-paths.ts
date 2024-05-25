@@ -1,4 +1,7 @@
 export const appPaths = {
-    quiz: "/quiz",
+    explore: "/explore",
     sell: "/sell",
+    profile: "/profile",
+    create: "/create",
+    login: "/login",
 }
