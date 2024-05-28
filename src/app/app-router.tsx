@@ -1,19 +1,18 @@
 import { createBrowserRouter, RouterProvider, Outlet } from "react-router-dom";
 import { appPaths } from "./app-paths";
-import { Home, Create, Profile, Explore } from "../features";
-
+import { Home, Create, Profile, Explore, Join, AuthLayout, Login } from "../features";
 
 const router = createBrowserRouter([
   {
     path: "/",
     element: (
-      <>
+      <AuthLayout>
         <Outlet />
-      </>
+      </AuthLayout>
     ),
     children: [
       {
-        path: "/",
+        path: appPaths.home,
         element: <Home />,
       },
       {
@@ -27,6 +26,14 @@ const router = createBrowserRouter([
       {
         path: appPaths.explore,
         element: <Explore />,
+      },
+      {
+        path: appPaths.meetingId,
+        element: <Join />,
+      },
+      {
+        path: appPaths.login,
+        element: <Login />,
       },
     ],
   },

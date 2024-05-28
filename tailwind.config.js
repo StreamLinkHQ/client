@@ -10,7 +10,8 @@ export default {
         "merriweather": ["Merriweather", "serif"]
       }, 
       colors: {
-        "yellow": "#EDF042"
+        "yellow": "#EDF042",
+        'modal-black': 'rgba(0,0,0,0.4)',
       } 
     },
   },

@@ -4,7 +4,7 @@ const ExploreLivestreams = () => {
   return (
     <HomeLayout>
       <div className="text-white mt-8 w-full">
-        <p>Explore</p>
+        <p className="text-xl text-center">Explore</p>
       </div>
     </HomeLayout>
   );
