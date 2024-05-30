@@ -8,7 +8,8 @@ import toast, { Toaster } from "react-hot-toast";
 import { FaXTwitter, FaFacebook, FaTiktok } from "react-icons/fa6";
 import { AiFillInstagram } from "react-icons/ai";
 import { TbCopy } from "react-icons/tb";
-import { HomeLayout, Modal, AuthContext } from "../ui";
+import { HomeLayout, Modal } from "../ui";
+import { AuthContext } from "../../context";
 import { useCreateLivestream } from "./use-livestream";
 
 type FormData = {

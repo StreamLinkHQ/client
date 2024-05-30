@@ -3,7 +3,7 @@ import { FaPlus } from "react-icons/fa";
 import { IoIosShareAlt } from "react-icons/io";
 import { IoMdWallet } from "react-icons/io";
 import { Wallet } from "../auth";
-import  FeatureModal from "../ui/feature-modal"
+import  FeatureModal from "../feature-modal"
 
 type ControlProps = {
   userType: string | null;
