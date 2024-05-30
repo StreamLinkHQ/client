@@ -1,6 +1,6 @@
 import { createBrowserRouter, RouterProvider, Outlet } from "react-router-dom";
 import { appPaths } from "./app-paths";
-import { Home, Create, Profile, Explore, Join, AuthLayout, Login } from "../features";
+import { Home, Create, Profile, Explore, Join, AuthLayout } from "../features";
 
 const router = createBrowserRouter([
   {
@@ -30,10 +30,6 @@ const router = createBrowserRouter([
       {
         path: appPaths.meetingId,
         element: <Join />,
-      },
-      {
-        path: appPaths.login,
-        element: <Login />,
       },
     ],
   },

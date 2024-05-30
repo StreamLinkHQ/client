@@ -12,6 +12,7 @@ export default {
       colors: {
         "yellow": "#EDF042",
         'modal-black': 'rgba(0,0,0,0.4)',
+        "border-ash": "#959696",
       } 
     },
   },

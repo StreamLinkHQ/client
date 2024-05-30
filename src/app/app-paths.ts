@@ -4,5 +4,4 @@ export const appPaths = {
     meetingId: "/:id",
     profile: "/profile",
     create: "/create",
-    login: "/login",
 }
