@@ -1,7 +1,8 @@
 import { useState } from "react";
 import { IoMdClose } from "react-icons/io";
-import { MdQuiz, MdSell } from "react-icons/md";
+import { MdQuiz } from "react-icons/md";
 import { RiAuctionFill } from "react-icons/ri";
+import { BsCart3 } from "react-icons/bs";
 import { Modal } from "./ui";
 import { QuizModal } from "./quiz";
 
@@ -18,31 +19,33 @@ type FeatureCardProps = {
 const FeatureCard = (props: FeatureCardProps) => {
   const { featureIcon, featureName, setFeature } = props;
   return (
-    <button
-      className="border text-yellow border-yellow text-lg w-full rounded-md my-1 p-1.5 flex flex-row items-center"
-      onClick={() => setFeature(featureName)}
-    >
-      {featureIcon}
-      <span className="text-lg ml-2">{featureName}</span>
-    </button>
+    <div className="flex flex-col items-center text-yellow">
+      <div
+        className="border border-yellow rounded-full my-1 p-2"
+        onClick={() => setFeature(featureName)}
+      >
+        {featureIcon}
+      </div>
+      <span className="">{featureName}</span>
+    </div>
   );
 };
 
 const FeatureModal = ({ setShowModal }: FeatureModalProps) => {
   const featureList = [
     {
-      featureIcon: <MdQuiz className="text-yellow text-3xl cursor-pointer" />,
+      featureIcon: <MdQuiz className="text-yellow text-2xl cursor-pointer" />,
       featureName: "Quiz",
     },
     {
       featureIcon: (
-        <RiAuctionFill className="text-yellow text-3xl cursor-pointer" />
+        <RiAuctionFill className="text-yellow text-2xl cursor-pointer" />
       ),
       featureName: "Auction",
     },
     {
-      featureIcon: <MdSell className="text-yellow text-3xl cursor-pointer" />,
-      featureName: "Sale",
+      featureIcon: <BsCart3 className="text-yellow text-2xl cursor-pointer" />,
+      featureName: "Sell",
     },
   ];
   const [feature, setFeature] = useState("");
@@ -56,7 +59,7 @@ const FeatureModal = ({ setShowModal }: FeatureModalProps) => {
           >
             <IoMdClose className="text-yellow text-lg cursor-pointer" />
           </div>
-          <div className="flex flex-col items-center">
+          <div className="flex flex-row items-center justify-between w-[70%]">
             {featureList.map((feature, i) => (
               <FeatureCard
                 key={i}
@@ -68,7 +71,7 @@ const FeatureModal = ({ setShowModal }: FeatureModalProps) => {
           </div>
         </div>
       </Modal>
-      {feature === "Quiz" && <QuizModal setShowModal={setFeature}/>}
+      {feature === "Quiz" && <QuizModal setShowModal={setFeature} />}
     </>
   );
 };

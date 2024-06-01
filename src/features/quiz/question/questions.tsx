@@ -1,6 +1,7 @@
 import { useContext, useState, useEffect, useCallback } from "react";
 import { QuizContext } from "../../../context";
-import QuestionForm, { FormData } from "./question-form";
+import { QuestionFormData } from "../../../types";
+import QuestionForm from "./question-form";
 import QuizPreviewer from "../quiz-previewer";
 
 const Questions = () => {
@@ -24,13 +25,7 @@ const Questions = () => {
     generateNumberOfQuestions();
   }, []);
 
-  const addQuestions = (data: FormData) => {
-    if (currentQuestion === numberOfQuestions) {
-      // submit
-      console.log("last one");
-      setPreview(true);
-      return;
-    }
+  const addQuestions = (data: QuestionFormData) => {
     const { question, optionA, optionB, optionC, optionD, answer } = data;
     const questionData = {
       question,
@@ -38,6 +33,10 @@ const Questions = () => {
       options: [optionA, optionB, optionC, optionD],
     };
     questions.push(questionData);
+    if (currentQuestion === numberOfQuestions) {
+      setPreview(true);
+      return;
+    }
     setCurrentQuestion((prev) => prev + 1);
   };
 
@@ -47,8 +46,8 @@ const Questions = () => {
         <QuizPreviewer />
       ) : (
         <div className="flex flex-col text-[#BFBFBF]">
-          <p className="text-[#BFBFBF] text-2xl font-semibold">Set questions</p>
-          <p className="mt-2.5">Question No_{currentQuestion}</p>
+          <p className="text-[#BFBFBF] text-2xl font-semibold mb-2.5">Set questions</p>
+          <p className="my-1">Question No_{currentQuestion}</p>
           <div className="flex flex-row mb-2.5">
             {num.map((n) => (
               <div

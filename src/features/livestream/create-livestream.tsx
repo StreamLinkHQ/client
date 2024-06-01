@@ -85,7 +85,7 @@ const CreateLivestream = () => {
               <p className="mb-1">Enter stream name</p>
               <input
                 type="text"
-                className="border w-full border-black p-1.5 rounded-md focus:outline-none text-black my-1"
+                className="border w-full p-1.5 rounded-md focus:outline-none text-white my-1 bg-[#222] border-border-ash"
                 {...register("streamName")}
               />
               <p className="text-red-500 text-xs">

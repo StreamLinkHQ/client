@@ -1,20 +1,12 @@
 import * as yup from "yup";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
+import { QuestionFormData } from "../../../types";
 
 type QuestionFormProps = {
   showForm: boolean;
   updateQuestionsFunc: Function;
-}
-
-export type FormData = {
-  question: string;
-  optionA: string;
-  optionB: string;
-  optionC: string;
-  optionD: string;
-  answer: string;
-}
+};
 
 const QuestionForm = ({ showForm, updateQuestionsFunc }: QuestionFormProps) => {
   const validation = yup.object().shape({
@@ -23,7 +15,14 @@ const QuestionForm = ({ showForm, updateQuestionsFunc }: QuestionFormProps) => {
     optionB: yup.string().required("Please enter second option"),
     optionC: yup.string().required("Please enter third option"),
     optionD: yup.string().required("Please enter fourth option"),
-    answer: yup.string().required("Please enter the correct option"),
+    answer: yup
+      .string()
+      .required("Please enter the correct option")
+      .max(1)
+      .matches(
+        /[a-dA-D]/,
+        "Please, you can only enter letters between a and d"
+      ),
   });
 
   const {
@@ -34,11 +33,11 @@ const QuestionForm = ({ showForm, updateQuestionsFunc }: QuestionFormProps) => {
     resolver: yupResolver(validation),
   });
 
-  const onSubmit = (values: FormData) => {
-    updateQuestionsFunc(values)
+  const onSubmit = (values: QuestionFormData) => {
+    updateQuestionsFunc(values);
   };
   return (
-    <div className={`${showForm ? "block": "hidden"}`}>
+    <div className={`${showForm ? "block" : "hidden"}`}>
       <form onSubmit={handleSubmit(onSubmit)}>
         <div className="mb-1.5">
           <p className="mb-1">Question</p>
@@ -49,46 +48,59 @@ const QuestionForm = ({ showForm, updateQuestionsFunc }: QuestionFormProps) => {
           />
           <p className="text-red-500 text-xs">{errors.question?.message}</p>
         </div>
-       <div className="my-2">
-        <p className="">Answers</p>
-        <div className="flex flex-row justify-between items-center">
-          <div className="w-[48%]">
-          <input
-            type="text"
-            className="border w-full border-border-ash p-2.5 rounded-lg focus:outline-none text-white my-1 bg-[#222]"
-            {...register("optionA")}
-          />
-          <p className="text-red-500 text-xs">{errors.optionA?.message}</p>
+        <div className="my-2">
+          <p className="">Answers</p>
+          <div className="flex flex-row justify-between items-center">
+            <div className="w-[48%]">
+              
+              <div className="flex flex-row items-center">
+              <p className="mr-1 text-sm">A</p>
+              <input
+                type="text"
+                className="border w-full border-border-ash p-2.5 rounded-lg focus:outline-none text-white my-1 bg-[#222]"
+                {...register("optionA")}
+              />
+              </div>
+              <p className="text-red-500 text-xs">{errors.optionA?.message}</p>
+            </div>
+            <div className="w-[48%]">
+            <div className="flex flex-row items-center">
+              <p className="mr-1 text-sm">B</p>
+              <input
+                type="text"
+                className="border w-full border-border-ash p-2.5 rounded-lg focus:outline-none text-white my-1 bg-[#222]"
+                {...register("optionB")}
+              />
+              </div>
+              <p className="text-red-500 text-xs">{errors.optionB?.message}</p>
+            </div>
           </div>
-          <div className="w-[48%]">
-          <input
-            type="text"
-            className="border w-full border-border-ash p-2.5 rounded-lg focus:outline-none text-white my-1 bg-[#222]"
-            {...register("optionB")}
-          />
-          <p className="text-red-500 text-xs">{errors.optionB?.message}</p>
+          <div className="flex flex-row justify-between items-center">
+            <div className="w-[48%]">
+            <div className="flex flex-row items-center">
+              <p className="mr-1 text-sm">C</p>
+              <input
+                type="text"
+                className="border w-full border-border-ash p-2.5 rounded-lg focus:outline-none text-white my-1 bg-[#222]"
+                {...register("optionC")}
+              />
+              </div>
+              <p className="text-red-500 text-xs">{errors.optionC?.message}</p>
+            </div>
+            <div className="w-[48%]">
+            <div className="flex flex-row items-center">
+              <p className="mr-1 text-sm">D</p>
+              <input
+                type="text"
+                className="border w-full border-border-ash p-2.5 rounded-lg focus:outline-none text-white my-1 bg-[#222]"
+                {...register("optionD")}
+              />
+              </div>
+              <p className="text-red-500 text-xs">{errors.optionD?.message}</p>
+            </div>
           </div>
         </div>
-        <div className="flex flex-row justify-between items-center">
-          <div className="w-[48%]">
-          <input
-            type="text"
-            className="border w-full border-border-ash p-2.5 rounded-lg focus:outline-none text-white my-1 bg-[#222]"
-            {...register("optionC")}
-          />
-          <p className="text-red-500 text-xs">{errors.optionC?.message}</p>
-          </div>
-          <div className="w-[48%]">
-          <input
-            type="text"
-            className="border w-full border-border-ash p-2.5 rounded-lg focus:outline-none text-white my-1 bg-[#222]"
-            {...register("optionD")}
-          />
-          <p className="text-red-500 text-xs">{errors.optionD?.message}</p>
-          </div>
-        </div>
-       </div>
-       <div className="mt-6">
+        <div className="mt-6">
           <p className="mb-1">Correct Answer</p>
           <input
             type="text"
