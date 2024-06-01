@@ -1,14 +1,10 @@
 type DropDownProps = {
   children: React.ReactNode;
+  styles: string;
 };
 
-const DropDown = ({ children }: DropDownProps) => {
-  return (
-    <div className="z-10 absolute p-2 rounded-md shadow bg-[#222] right-7">
-      {children}
-    </div>
-  );
+const DropDown = ({ children, styles }: DropDownProps) => {
+  return <div className={styles}>{children}</div>;
 };
 
 export default DropDown;
-

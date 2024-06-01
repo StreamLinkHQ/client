@@ -1,8 +1,9 @@
+import { useState, useContext } from "react";
 import { BsThreeDotsVertical } from "react-icons/bs";
 import { RiDeleteBin6Fill, RiEdit2Fill } from "react-icons/ri";
+import { QuizContext } from "../../../context";
 import { DropDown } from "../../ui";
 import { Question } from "../../../types";
-import { useState } from "react";
 
 type QuestionCardProps = {
   question: Question;
@@ -25,13 +26,22 @@ const QuestionCard = ({
 }: QuestionCardProps) => {
   const alphabets = ["A", "B", "C", "D"];
   const [showMenu, setShowMenu] = useState(false);
-
-  console.log({ id });
+  const { quizDetails, setQuizDetails } = useContext(QuizContext);
+  const { questions, numberOfQuestions } = quizDetails;
 
   const edit = () => {
     editFunc(id);
     setIsEditFunc(true);
     setPreview(false);
+  };
+
+  const deleteFunc = () => {
+    const newQuestions = questions.filter((_: any, i: number) => i !== id - 1);
+    setQuizDetails({
+      ...quizDetails,
+      questions: newQuestions,
+      numberOfQuestions: numberOfQuestions - 1,
+    });
   };
   return (
     <div className="bg-[#343434] p-2.5 flex flex-row items-center justify-between rounded-lg text-[#959696] my-2">
@@ -57,7 +67,7 @@ const QuestionCard = ({
         }}
       />
       {showMenu && currentIndex === id && (
-        <DropDown>
+        <DropDown styles="z-10 absolute p-2 rounded-md shadow bg-[#222] right-7">
           <div
             className="flex flex-row items-center text-yellow mb-1.5"
             onClick={edit}
@@ -65,7 +75,10 @@ const QuestionCard = ({
             <RiEdit2Fill className="text-xl mr-1" />
             <p className="text-sm">Edit</p>
           </div>
-          <div className="flex flex-row items-center text-red-600">
+          <div
+            className="flex flex-row items-center text-red-600"
+            onClick={deleteFunc}
+          >
             <RiDeleteBin6Fill className="text-xl mr-1" />
             <p className="text-sm">Delete</p>
           </div>

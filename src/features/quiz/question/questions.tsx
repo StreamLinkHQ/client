@@ -12,7 +12,6 @@ const Questions = () => {
   const [isEdit, setIsEdit] = useState(false);
 
   const { numberOfQuestions, questions } = quizDetails;
-  console.log(currentQuestion);
 
   const generateNumberOfQuestions = useCallback(() => {
     const quizQuestions = Array.from(
@@ -20,11 +19,11 @@ const Questions = () => {
       (_, i) => i + 1
     );
     setNum(quizQuestions);
-  }, []);
+  }, [numberOfQuestions]);
 
   useEffect(() => {
     generateNumberOfQuestions();
-  }, []);
+  }, [numberOfQuestions]);
 
   const addQuestions = (data: QuestionFormData) => {
     const { question, optionA, optionB, optionC, optionD, answer } = data;
@@ -33,7 +32,13 @@ const Questions = () => {
       answer,
       options: [optionA, optionB, optionC, optionD],
     };
-    questions.push(questionData);
+
+    if (isEdit) {
+      questions[currentQuestion - 1] = questionData;
+    } else {
+      questions.push(questionData);
+    }
+
     if (currentQuestion === numberOfQuestions) {
       setPreview(true);
       return;
@@ -71,6 +76,7 @@ const Questions = () => {
                 key={n}
                 showForm={currentQuestion === n}
                 updateQuestionsFunc={addQuestions}
+                question={questions[currentQuestion - 1]}
               />
             ))}
           </div>

@@ -1,41 +1,66 @@
+import { useEffect } from "react";
 import * as yup from "yup";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
-import { QuestionFormData } from "../../../types";
+import { QuestionFormData, Question } from "../../../types";
 
 type QuestionFormProps = {
   showForm: boolean;
   updateQuestionsFunc: Function;
+  question: Question;
 };
 
-const QuestionForm = ({ showForm, updateQuestionsFunc }: QuestionFormProps) => {
-  const validation = yup.object().shape({
-    question: yup.string().required("Please enter the Question"),
-    optionA: yup.string().required("Please enter first option"),
-    optionB: yup.string().required("Please enter second option"),
-    optionC: yup.string().required("Please enter third option"),
-    optionD: yup.string().required("Please enter fourth option"),
-    answer: yup
-      .string()
-      .required("Please enter the correct option")
-      .max(1)
-      .matches(
-        /[a-dA-D]/,
-        "Please, you can only enter letters between a and d"
-      ),
-  });
+const validation = yup.object().shape({
+  question: yup.string().required("Please enter the Question"),
+  optionA: yup.string().required("Please enter first option"),
+  optionB: yup.string().required("Please enter second option"),
+  optionC: yup.string().required("Please enter third option"),
+  optionD: yup.string().required("Please enter fourth option"),
+  answer: yup
+    .string()
+    .required("Please enter the correct option")
+    .max(1)
+    .matches(/[a-dA-D]/, "Please, you can only enter letters between a and d"),
+});
 
+const QuestionForm = ({
+  showForm,
+  updateQuestionsFunc,
+  question,
+}: QuestionFormProps) => {
   const {
     register,
     handleSubmit,
+    reset,
     formState: { errors },
   } = useForm({
+    defaultValues: {
+      question: question?.question,
+      optionA: question?.options[0],
+      optionB: question?.options[1],
+      optionC: question?.options[2],
+      optionD: question?.options[3],
+      answer: question?.answer,
+    },
     resolver: yupResolver(validation),
   });
 
   const onSubmit = (values: QuestionFormData) => {
     updateQuestionsFunc(values);
   };
+  useEffect(() => {
+    if (question) {
+      reset({
+        question: question?.question,
+        optionA: question?.options[0],
+        optionB: question?.options[1],
+        optionC: question?.options[2],
+        optionD: question?.options[3],
+        answer: question?.answer,
+      });
+    }
+  }, [question]);
+
   return (
     <div className={`${showForm ? "block" : "hidden"}`}>
       <form onSubmit={handleSubmit(onSubmit)}>
@@ -52,49 +77,48 @@ const QuestionForm = ({ showForm, updateQuestionsFunc }: QuestionFormProps) => {
           <p className="">Answers</p>
           <div className="flex flex-row justify-between items-center">
             <div className="w-[48%]">
-              
               <div className="flex flex-row items-center">
-              <p className="mr-1 text-sm">A</p>
-              <input
-                type="text"
-                className="border w-full border-border-ash p-2.5 rounded-lg focus:outline-none text-white my-1 bg-[#222]"
-                {...register("optionA")}
-              />
+                <p className="mr-1 text-sm">A</p>
+                <input
+                  type="text"
+                  className="border w-full border-border-ash p-2.5 rounded-lg focus:outline-none text-white my-1 bg-[#222]"
+                  {...register("optionA")}
+                />
               </div>
               <p className="text-red-500 text-xs">{errors.optionA?.message}</p>
             </div>
             <div className="w-[48%]">
-            <div className="flex flex-row items-center">
-              <p className="mr-1 text-sm">B</p>
-              <input
-                type="text"
-                className="border w-full border-border-ash p-2.5 rounded-lg focus:outline-none text-white my-1 bg-[#222]"
-                {...register("optionB")}
-              />
+              <div className="flex flex-row items-center">
+                <p className="mr-1 text-sm">B</p>
+                <input
+                  type="text"
+                  className="border w-full border-border-ash p-2.5 rounded-lg focus:outline-none text-white my-1 bg-[#222]"
+                  {...register("optionB")}
+                />
               </div>
               <p className="text-red-500 text-xs">{errors.optionB?.message}</p>
             </div>
           </div>
           <div className="flex flex-row justify-between items-center">
             <div className="w-[48%]">
-            <div className="flex flex-row items-center">
-              <p className="mr-1 text-sm">C</p>
-              <input
-                type="text"
-                className="border w-full border-border-ash p-2.5 rounded-lg focus:outline-none text-white my-1 bg-[#222]"
-                {...register("optionC")}
-              />
+              <div className="flex flex-row items-center">
+                <p className="mr-1 text-sm">C</p>
+                <input
+                  type="text"
+                  className="border w-full border-border-ash p-2.5 rounded-lg focus:outline-none text-white my-1 bg-[#222]"
+                  {...register("optionC")}
+                />
               </div>
               <p className="text-red-500 text-xs">{errors.optionC?.message}</p>
             </div>
             <div className="w-[48%]">
-            <div className="flex flex-row items-center">
-              <p className="mr-1 text-sm">D</p>
-              <input
-                type="text"
-                className="border w-full border-border-ash p-2.5 rounded-lg focus:outline-none text-white my-1 bg-[#222]"
-                {...register("optionD")}
-              />
+              <div className="flex flex-row items-center">
+                <p className="mr-1 text-sm">D</p>
+                <input
+                  type="text"
+                  className="border w-full border-border-ash p-2.5 rounded-lg focus:outline-none text-white my-1 bg-[#222]"
+                  {...register("optionD")}
+                />
               </div>
               <p className="text-red-500 text-xs">{errors.optionD?.message}</p>
             </div>
