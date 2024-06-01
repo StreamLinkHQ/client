@@ -9,9 +9,10 @@ const Questions = () => {
   const { quizDetails } = useContext(QuizContext);
   const [currentQuestion, setCurrentQuestion] = useState(1);
   const [preview, setPreview] = useState(false);
+  const [isEdit, setIsEdit] = useState(false);
 
   const { numberOfQuestions, questions } = quizDetails;
-  console.log(num);
+  console.log(currentQuestion);
 
   const generateNumberOfQuestions = useCallback(() => {
     const quizQuestions = Array.from(
@@ -43,10 +44,16 @@ const Questions = () => {
   return (
     <>
       {preview ? (
-        <QuizPreviewer />
+        <QuizPreviewer
+          editFunc={setCurrentQuestion}
+          setIsEditFunc={setIsEdit}
+          setPreview={setPreview}
+        />
       ) : (
         <div className="flex flex-col text-[#BFBFBF]">
-          <p className="text-[#BFBFBF] text-2xl font-semibold mb-2.5">Set questions</p>
+          <p className="text-[#BFBFBF] text-2xl font-semibold mb-2.5">
+            {isEdit ? "Edit" : "Set"} questions
+          </p>
           <p className="my-1">Question No_{currentQuestion}</p>
           <div className="flex flex-row mb-2.5">
             {num.map((n) => (
