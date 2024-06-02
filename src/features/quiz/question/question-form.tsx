@@ -11,7 +11,7 @@ type QuestionFormProps = {
 };
 
 const validation = yup.object().shape({
-  question: yup.string().required("Please enter the Question"),
+  question: yup.string().required("Please enter the question"),
   optionA: yup.string().required("Please enter first option"),
   optionB: yup.string().required("Please enter second option"),
   optionC: yup.string().required("Please enter third option"),
@@ -48,6 +48,7 @@ const QuestionForm = ({
   const onSubmit = (values: QuestionFormData) => {
     updateQuestionsFunc(values);
   };
+
   useEffect(() => {
     if (question) {
       reset({

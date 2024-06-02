@@ -1,49 +1,95 @@
-import { useState } from "react";
-import { FaPlus } from "react-icons/fa";
-import { IoIosShareAlt } from "react-icons/io";
-import { IoMdWallet } from "react-icons/io";
-import { Wallet } from "../auth";
-import  FeatureModal from "../feature-modal"
+import {
+  useLocalVideo,
+  useLocalAudio,
+  useLocalScreenShare,
+} from "@huddle01/react/hooks";
+import { Audio, Video } from "@huddle01/react/components";
+import {
+  BsCameraVideo,
+  BsCameraVideoOff,
+  BsMic,
+  BsMicMute,
+} from "react-icons/bs";
+import { LuScreenShare, LuScreenShareOff } from "react-icons/lu";
 
-type ControlProps = {
+type CallControlsProps = {
   userType: string | null;
 };
 
-const Controls = ({ userType }: ControlProps) => {
-  const [showWallet, setShowWallet] = useState(false);
-  const [showFeature, setShowFeature] = useState(false);
+const CallControls = ({ userType }: CallControlsProps) => {
+  const {
+    stream: videoStream,
+    enableVideo,
+    disableVideo,
+    isVideoOn,
+  } = useLocalVideo();
+  const {
+    stream: audioStream,
+    enableAudio,
+    disableAudio,
+    isAudioOn,
+  } = useLocalAudio();
+  const { startScreenShare, stopScreenShare, shareStream } =
+    useLocalScreenShare();
   return (
     <>
-      <div className="absolute right-5 bottom-1/4 flex flex-col items-center z-50">
+      {videoStream && <Video stream={videoStream} />}
+      <div className="absolute left-5 bottom-5 flex flex-row items-center z-30 text-yellow">
+        <div
+          onClick={() => {
+            isVideoOn ? disableVideo() : enableVideo();
+          }}
+          className="mx-2"
+        >
+          {!isVideoOn ? (
+            <div className="text-2xl border border-yellow rounded-full p-2.5 bg-[#222]">
+              <BsCameraVideo />
+            </div>
+          ) : (
+            <div className="text-2xl border border-yellow rounded-full p-2.5 bg-[#222]">
+              <BsCameraVideoOff />
+            </div>
+          )}
+        </div>
+
+        <div
+          onClick={() => {
+            isAudioOn ? disableAudio() : enableAudio();
+          }}
+          className="mx-2"
+        >
+          {!isAudioOn ? (
+            <div className="text-2xl border border-yellow rounded-full p-2.5 bg-[#222]">
+              <BsMic />
+            </div>
+          ) : (
+            <div className="text-2xl border border-yellow rounded-full p-2.5 bg-[#222]">
+              <BsMicMute />
+            </div>
+          )}
+        </div>
+        {audioStream && <Audio stream={audioStream} />}
         {userType === "host" && (
-          <div className="flex flex-col items-center" onClick={() => setShowFeature(true)}>
-            <button className="bg-[#FFFFFF1A] rounded-full p-3">
-              <FaPlus className="text-2xl" />
-            </button>
-            Add
+          <div
+            onClick={() => {
+              shareStream ? stopScreenShare() : startScreenShare();
+            }}
+            className="mx-2"
+          >
+            {!shareStream ? (
+              <div className="text-2xl border border-yellow rounded-full p-2.5 bg-[#222]">
+                <LuScreenShare />
+              </div>
+            ) : (
+              <div className="text-2xl border border-yellow rounded-full p-2.5 bg-[#222]">
+                <LuScreenShareOff />
+              </div>
+            )}
           </div>
         )}
-        <div className="flex flex-col items-center my-2.5">
-          <button className="bg-[#FFFFFF1A] rounded-full p-3">
-            <IoIosShareAlt className="text-2xl" />
-          </button>
-          Share
-        </div>
-        <div className="flex flex-col items-center mb-2.5" onClick={() => setShowWallet(true)}>
-          <button className="bg-[#FFFFFF1A] rounded-full p-3">
-            <IoMdWallet className="text-2xl" />
-          </button>
-          Wallet
-        </div>
       </div>
-      {showWallet && <Wallet setShowModal={setShowWallet} />}
-      {
-        showFeature && (
-          <FeatureModal setShowModal={setShowFeature}/>
-        )
-      }
     </>
   );
 };
 
-export default Controls;
+export default CallControls;

@@ -14,8 +14,18 @@ const QuizPreviewer = ({
   setIsEditFunc,
   setPreview,
 }: QuizPreviewerProps) => {
-  const { quizDetails } = useContext(QuizContext);
+  const { quizDetails, setQuizDetails } = useContext(QuizContext);
   const [current, setCurrent] = useState<number>();
+  const { numberOfQuestions } = quizDetails;
+
+  const addNewQuestion = () => {
+    setQuizDetails({
+      ...quizDetails,
+      numberOfQuestions: numberOfQuestions + 1,
+    });
+    editFunc(numberOfQuestions + 1);
+    setPreview(false);
+  };
 
   return (
     <>
@@ -33,6 +43,12 @@ const QuizPreviewer = ({
             setPreview={setPreview}
           />
         ))}
+        <button
+          className="w-[50%] ml-auto border border-yellow text-yellow py-2 rounded-md my-2"
+          onClick={addNewQuestion}
+        >
+          Add Question
+        </button>
         <button className="w-full mx-auto bg-yellow text-black py-3 rounded-md mt-2">
           Proceed to Pay
         </button>

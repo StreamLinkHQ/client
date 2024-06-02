@@ -13,7 +13,7 @@ const QuizModal = ({ setShowModal }: QuizModalProps) => {
   const [generateQuiz, setGenerateQuiz] = useState("");
   return (
     <QuizContextProvider>
-      <Modal bgColor="bg-[#202020]">
+      <Modal bgColor="bg-modal-black">
         <>
           <div className="bg-[#222] w-full absolute bottom-0 p-5 text-white rounded-t-3xl max-h-[85%] overflow-y-auto">
             <div

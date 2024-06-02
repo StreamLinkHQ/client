@@ -1,4 +1,4 @@
-import { CallMeta, Controls } from "../call";
+import { CallMeta, CallFeatures, CallControls } from "../call";
 
 type CreatorProps = {
   userType: string | null;
@@ -6,9 +6,10 @@ type CreatorProps = {
 
 const Creator = ({ userType }: CreatorProps) => {
   return (
-    <div className="relative h-screen w-full">
+    <div className="relative h-screen w-full bg-[#222]">
       <CallMeta />
-      <Controls userType={userType} />
+      <CallFeatures userType={userType} />
+      <CallControls userType={userType} />
     </div>
   );
 };
