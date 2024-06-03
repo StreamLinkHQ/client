@@ -14,8 +14,15 @@ const Peer = ({ peerId }: PeerProps) => {
   const { videoStream: screenVideoStream, audioStream: screenAudioStream } =
     useRemoteScreenShare({ peerId });
   return (
-    <div>
-      {videoStream && <Video stream={videoStream} />}
+    <div className="h-screen w-full">
+      {videoStream && (
+        <Video
+          stream={videoStream}
+          height={400}
+          width={"100%"}
+          className="border-2 border-yellow h-full w-full"
+        />
+      )}
       {audioStream && <Audio stream={audioStream} />}
       {screenVideoStream && <Video stream={screenVideoStream} />}
       {screenAudioStream && <Audio stream={screenAudioStream} />}

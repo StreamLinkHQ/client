@@ -31,24 +31,25 @@ const CallControls = ({ userType }: CallControlsProps) => {
   } = useLocalAudio();
   const { startScreenShare, stopScreenShare, shareStream } =
     useLocalScreenShare();
+
   return (
     <>
       {videoStream && <Video stream={videoStream} />}
-      <div className="absolute left-5 bottom-5 flex flex-row items-center z-30 text-yellow">
+      <div className="absolute left-5 bottom-5 flex flex-row items-center z-50 text-yellow">
         <div
+          className="mx-2"
           onClick={() => {
             isVideoOn ? disableVideo() : enableVideo();
           }}
-          className="mx-2"
         >
-          {!isVideoOn ? (
+          {isVideoOn ? (
             <div className="text-2xl border border-yellow rounded-full p-2.5 bg-[#222]">
               <BsCameraVideo />
             </div>
           ) : (
-            <div className="text-2xl border border-yellow rounded-full p-2.5 bg-[#222]">
+            <button className="text-2xl border border-yellow rounded-full p-2.5 bg-[#222]">
               <BsCameraVideoOff />
-            </div>
+            </button>
           )}
         </div>
 
@@ -60,11 +61,11 @@ const CallControls = ({ userType }: CallControlsProps) => {
         >
           {!isAudioOn ? (
             <div className="text-2xl border border-yellow rounded-full p-2.5 bg-[#222]">
-              <BsMic />
+              <BsMicMute />
             </div>
           ) : (
             <div className="text-2xl border border-yellow rounded-full p-2.5 bg-[#222]">
-              <BsMicMute />
+              <BsMic />
             </div>
           )}
         </div>
