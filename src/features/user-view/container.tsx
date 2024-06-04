@@ -5,9 +5,10 @@ import Peer from "./peer";
 
 type ContainerProps = {
   userType: string | null;
+  setJoin: Function;
 };
 
-const Container = ({ userType }: ContainerProps) => {
+const Container = ({ userType, setJoin }: ContainerProps) => {
   const { peerIds } = usePeerIds({ roles: ["host", "co-host"] });
   return (
     <div className="relative h-screen w-full">
@@ -17,9 +18,9 @@ const Container = ({ userType }: ContainerProps) => {
         })}
       </div>
       {userType === "host" ? (
-        <Creator userType={userType} />
+        <Creator userType={userType} setJoin={setJoin}/>
       ) : (
-        <Audience userType={userType} />
+        <Audience userType={userType} setJoin={setJoin}/>
       )}
     </div>
   );

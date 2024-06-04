@@ -1,14 +1,15 @@
 import { createBrowserRouter, RouterProvider, Outlet } from "react-router-dom";
 import { appPaths } from "./app-paths";
-import { Home, Create, Profile, Explore, Join, AuthLayout } from "../features";
+import { Home, Create, Profile, Explore, Join } from "../features";
+import { AuthContextProvider } from "../context";
 
 const router = createBrowserRouter([
   {
     path: "/",
     element: (
-      <AuthLayout>
+      <AuthContextProvider>
         <Outlet />
-      </AuthLayout>
+      </AuthContextProvider>
     ),
     children: [
       {
