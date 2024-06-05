@@ -10,6 +10,7 @@ type FormData = {
   reward: number;
   numberOfQuestions: number;
   quizDuration: number;
+  pointsPerQuestion: number;
 };
 
 type QuizDetailsFormProps = {
@@ -25,6 +26,7 @@ const QuizDetailsForm = ({ stepFunc }: QuizDetailsFormProps) => {
     reward: yup.number().required("Please, enter reward amount in USDC"),
     numberOfQuestions: yup.number().required("Please, enter number of questions"),
     quizDuration: yup.number().required("Please, duration in minutes"),
+    pointsPerQuestion: yup.number().required("Please, enter points per question"),
   });
 
   const {
@@ -83,6 +85,17 @@ const QuizDetailsForm = ({ stepFunc }: QuizDetailsFormProps) => {
           />
           <p className="text-red-500 text-xs">
             {errors.numberOfQuestions?.message}
+          </p>
+        </div>
+        <div className="mt-2.5">
+          <p className="mb-1">Question point</p>
+          <input
+            type="text"
+            className="border w-full border-border-ash p-1.5 rounded-md focus:outline-none text-white my-1 bg-[#222]"
+            {...register("pointsPerQuestion")}
+          />
+          <p className="text-red-500 text-xs">
+            {errors.pointsPerQuestion?.message}
           </p>
         </div>
         <div className="my-2 bg-[#222]">

@@ -14,7 +14,7 @@ const Container = ({ userType, setJoin }: ContainerProps) => {
     <div className="relative h-screen w-full">
       <div className="absolute h-screen top-0 z-50 border border-red-600 w-full">
         {peerIds.map((peerId) => {
-          return <Peer peerId={peerId} />;
+          return <Peer peerId={peerId} key={peerId}/>;
         })}
       </div>
       {userType === "host" ? (

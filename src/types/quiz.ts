@@ -9,6 +9,15 @@ export type QuestionFormData = {
 
 export type Question = {
   question: string;
-  options: string[];
+  options: any;
   answer: string;
 };
+
+export type Quiz = {
+  title: string;
+  questions: Question[];
+  description?: string;
+  quizDuration: number;
+  reward: number;
+  pointsPerQuestion: number;
+}

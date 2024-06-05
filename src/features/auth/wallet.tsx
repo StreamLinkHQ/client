@@ -5,6 +5,7 @@ import { Modal } from "../ui";
 type WalletProps = {
   setShowModal: Function;
 };
+
 const Wallet = (props: WalletProps) => {
   const { setShowModal } = props;
   return (
