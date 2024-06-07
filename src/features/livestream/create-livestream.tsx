@@ -30,7 +30,6 @@ const CreateLivestream = () => {
     streamTime: yup.string().required("Please, pick stream time"),
   });
 
-  console.log({user})
   const {
     register,
     handleSubmit,
@@ -39,10 +38,7 @@ const CreateLivestream = () => {
     resolver: yupResolver(validation),
   });
   const onSubmit = (values: FormData) => {
-    // Check for signed in user
-    // If no user, open Login modal, if there's a user, call create livestream
-    console.log(values);
-    setStreamDetails(values)
+      setStreamDetails(values)
     if (Object.values(user).length === 0) {
       setShowAuthFlow(true)
       return;
@@ -166,12 +162,12 @@ const CreateLivestream = () => {
                     for Co-host
                   </p>
                   <div className="bg-[#222] border border-yellow flex flex-row items-center rounded-md mt-3 p-2 justify-between">
-                    <p className="text-sm truncate text-white">{`${window.location.hostname}/${createLiveStream?.data?.data?.roomId}?mode=host`}</p>
+                    <p className="text-sm truncate text-white">{`${window.location.hostname}/${createLiveStream?.data?.name}?mode=host`}</p>
                     <TbCopy
                       className="text-white text-3xl font-semibold"
                       onClick={() =>
                         copyText(
-                          `${window.location.hostname}/${createLiveStream?.data?.data?.roomId}?mode=host`
+                          `${window.location.hostname}/${createLiveStream?.data?.name}?mode=host`
                         )
                       }
                     />
@@ -183,12 +179,12 @@ const CreateLivestream = () => {
                     for Audience
                   </p>
                   <div className="bg-[#222] border border-yellow flex flex-row items-center rounded-md mt-3 p-2 justify-between">
-                    <p className="text-sm truncate text-white">{`${window.location.hostname}/${createLiveStream?.data?.data?.roomId}?mode=guest`}</p>
+                    <p className="text-sm truncate text-white">{`${window.location.hostname}/${createLiveStream?.data?.name}?mode=guest`}</p>
                     <TbCopy
                       className="text-white text-3xl font-semibold"
                       onClick={() =>
                         copyText(
-                          `${window.location.hostname}/${createLiveStream?.data?.data?.roomId}?mode=guest`
+                          `${window.location.hostname}/${createLiveStream?.data?.name}?mode=guest`
                         )
                       }
                     />
@@ -200,7 +196,7 @@ const CreateLivestream = () => {
                   className="w-full mt-3.5 bg-yellow text-black py-2 rounded-md"
                   onClick={() =>
                     navigate(
-                      `${window.location.hostname}/${createLiveStream?.data?.data?.roomId}?mode=host`
+                      `${window.location.hostname}/${createLiveStream?.data?.name}?mode=host`
                     )
                   }
                 >

@@ -12,17 +12,12 @@ const JoinLivestream = () => {
   const [joinedCall, setJoinedCall] = useState(false);
 
   const joinCall = () => {
-    console.log("hyyy");
     const data = {
       roomId: id,
       userType: mode,
     };
     generateToken.mutate(data);
   };
-
-  console.log(joinedCall);
-  console.log(generateToken.data);
-  console.log(generateToken.isPending);
 
   useEffect(() => {
     joinCall();

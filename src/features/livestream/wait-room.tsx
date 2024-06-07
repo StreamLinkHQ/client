@@ -60,7 +60,7 @@ const WaitRoom = ({ showButton, token, roomId, setJoin }: WaitRoomProps) => {
       return;
     }
   }, [user]);
-  
+
   return (
     <HomeLayout>
       <>
