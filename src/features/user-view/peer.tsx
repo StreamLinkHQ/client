@@ -20,11 +20,18 @@ const Peer = ({ peerId }: PeerProps) => {
           stream={videoStream}
           height={400}
           width={"100%"}
-          className="border-2 border-yellow h-full w-full"
+          className={`border-2 border-yellow ${
+            screenVideoStream !== null ? "h-[56%]" : "h-full"
+          } w-full`}
         />
       )}
       {audioStream && <Audio stream={audioStream} />}
-      {screenVideoStream && <Video stream={screenVideoStream} />}
+      {screenVideoStream && (
+        <Video
+          stream={screenVideoStream}
+          className={`border-2 border-yellow h-[40%] w-full`}
+        />
+      )}
       {screenAudioStream && <Audio stream={screenAudioStream} />}
     </div>
   );

@@ -47,7 +47,6 @@ export const AuthContextProvider = ({ children }: AuthProps) => {
                 email,
                 wallet: address,
               });
-              console.log(data);
               localStorage.setItem("user", JSON.stringify(data));
               setUser(data);
             }
