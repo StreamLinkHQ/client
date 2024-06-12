@@ -3,8 +3,8 @@ import { IoMdClose } from "react-icons/io";
 import { MdQuiz } from "react-icons/md";
 import { RiAuctionFill } from "react-icons/ri";
 import { BsCart3 } from "react-icons/bs";
-import { Modal } from "./ui";
-import { QuizModal } from "./quiz";
+import { Modal } from "../ui";
+import { QuizModal } from "../quiz";
 
 type FeatureModalProps = {
   setShowModal: Function;

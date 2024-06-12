@@ -1,9 +1,9 @@
 import { useState } from "react";
 import { FaPlus } from "react-icons/fa";
-import { IoIosShareAlt } from "react-icons/io";
-import { IoMdWallet } from "react-icons/io";
+import { IoIosShareAlt, IoMdWallet } from "react-icons/io";
+import { BsAppIndicator } from "react-icons/bs";
 import { Wallet } from "../auth";
-import FeatureModal from "../feature-modal";
+import { CreatorModal, AudienceModal } from "../feature-modal";
 
 type CallFeatureProps = {
   userType: string | null;
@@ -41,11 +41,26 @@ const CallFeatures = ({ userType }: CallFeatureProps) => {
           </button>
           Wallet
         </div>
+
+        {userType === "guest" && (
+          <div
+            className="flex flex-col items-center mb-2.5"
+            onClick={() => setShowFeature(true)}
+          >
+            <button className="bg-[#FFFFFF1A] rounded-full p-3">
+              <BsAppIndicator className="text-xl" />
+            </button>
+            Addon
+          </div>
+        )}
       </div>
-      {showWallet && (
-        <Wallet setShowModal={setShowWallet} />
+      {showWallet && <Wallet setShowModal={setShowWallet} />}
+      {showFeature && userType === "host" && (
+        <CreatorModal setShowModal={setShowFeature} />
       )}
-      {showFeature && <FeatureModal setShowModal={setShowFeature} />}
+      {showFeature && userType === "guest" && (
+        <AudienceModal setShowModal={setShowFeature} />
+      )}
     </>
   );
 };
