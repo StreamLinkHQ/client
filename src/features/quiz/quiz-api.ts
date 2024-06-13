@@ -11,3 +11,15 @@ export const createQuiz = async (data: Quiz) => {
     console.log(error);
   }
 };
+
+export const getQuiz = async (data: string) => {
+  try {
+    const params = {
+      meetingId: data,
+    };
+    const res = await axios.get(`${baseApi}/quiz`, { params });
+    return res.data;
+  } catch (error) {
+    console.log(error);
+  }
+};
