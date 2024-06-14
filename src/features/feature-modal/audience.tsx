@@ -19,7 +19,7 @@ const AudienceModal = ({ setShowModal }: FeatureModalProps) => {
               <IoMdClose className="text-yellow text-lg cursor-pointer" />
             </div>
             <div>
-                <p>Quiz</p>
+                {/* <p>Quiz</p> */}
                 <QuizResponse />
             </div>
           </div>
