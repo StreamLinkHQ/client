@@ -12,14 +12,14 @@ const QuizResponse = () => {
   // @ts-ignore comment
   const { data } = useGetQuiz("dvkb-122e-iz33");
 
-  const [timeLimit, setTimeLimit] = useState(+data?.quizDuration * 60);
+  const [timeLimit, setTimeLimit] = useState<number>(+data?.quizDuration * 60);
   const timeRef = useRef(timeLimit);
   const minutes = Math.floor(timeLimit / 60);
   const secondsLeft = timeLimit % 60;
   const seconds = secondsLeft < 10 ? `0${secondsLeft}` : secondsLeft;
 
-  console.log(data);
-  console.log(score);
+  // console.log(data);
+  // console.log(score);
 
   const tick = () => {
     if (timeRef.current === 0) {
@@ -30,6 +30,7 @@ const QuizResponse = () => {
     setTimeLimit(timeRef.current);
   };
 
+  
   useEffect(() => {
     const interval = setInterval(() => {
       if (timeRef.current === 0) {
@@ -47,11 +48,13 @@ const QuizResponse = () => {
     <>
       {quizState === "playing" ? (
         <div>
-          <div className="bg-[#343434] p-3.5 rounded-lg text-[#959696] my-1.5 shadow-xl">
-            <p className="text-xl">{data?.title}</p>
+          <div className="bg-[#343434] py-1.5 px-2.5 rounded-lg text-white my-1.5 shadow-xl">
+            <p className="text-lg">{data?.title}</p>
             <p className="text-sm truncate">{data?.description}</p>
-            <div className="flex flex-row items-center justify-between text-sm mt-2.5">
-              <p className="text-[#F5AF76]">Prize tag: ${data?.reward}.00</p>
+            <div className="flex flex-row items-center justify-between text-sm my-1.5">
+              <p className="font-semibold text-white">
+                Question {currentQuestion + 1} / {data?.questions.length}
+              </p>
               <p className="text-white">
                 Time left:{" "}
                 <span className={`${timeLimit <= 90 ? "text-red-600" : ""}`}>
@@ -59,9 +62,6 @@ const QuizResponse = () => {
                 </span>
               </p>
             </div>
-            <p className="mt-1.5">
-              Question {currentQuestion + 1} / {data?.questions.length}
-            </p>
           </div>
           <AnswerForm
             questions={data?.questions}
@@ -71,6 +71,7 @@ const QuizResponse = () => {
             setQuizState={setQuizState}
             currentQuestion={currentQuestion}
             setCurrentQuestion={setCurrentQuestion}
+            quizId={data?.id}
           />
         </div>
       ) : (

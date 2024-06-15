@@ -1,6 +1,6 @@
 import { useMutation, useQuery } from "@tanstack/react-query";
-import { createQuiz, getQuiz } from "./quiz-api";
-import { Quiz } from "../../types";
+import { createQuiz, getQuiz, updateQuiz } from "./quiz-api";
+import { Quiz, QuizScore } from "../../types";
 
 export const useCreateQuiz = () => {
   return useMutation({
@@ -18,5 +18,11 @@ export const useGetQuiz = (meetingId: string | undefined) => {
       const data = await getQuiz(meetingId);
       return data;
     },
+  });
+};
+
+export const useUpdateQuiz = () => {
+  return useMutation({
+    mutationFn: (data: QuizScore) => updateQuiz(data),
   });
 };
