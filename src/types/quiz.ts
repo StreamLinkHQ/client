@@ -21,3 +21,9 @@ export type Quiz = {
   reward: number;
   pointsPerQuestion: number;
 }
+
+export type QuizScore = {
+  score: number;
+  userId: string;
+  quizId: number
+}
