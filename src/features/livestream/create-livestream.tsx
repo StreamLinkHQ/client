@@ -1,16 +1,13 @@
 import { useState, useEffect, useContext } from "react";
 import * as yup from "yup";
 import { useForm } from "react-hook-form";
-import { useNavigate } from "react-router-dom";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useDynamicContext } from "@dynamic-labs/sdk-react-core";
 import toast, { Toaster } from "react-hot-toast";
-import { FaXTwitter, FaFacebook, FaTiktok } from "react-icons/fa6";
-import { AiFillInstagram } from "react-icons/ai";
-import { TbCopy } from "react-icons/tb";
-import { HomeLayout, Modal } from "../ui";
+import { HomeLayout } from "../ui";
 import { AuthContext } from "../../context";
 import { useCreateLivestream } from "./use-livestream";
+import ShareModal from "../share-modal";
 
 type FormData = {
   streamName: string;
@@ -19,11 +16,11 @@ type FormData = {
 
 const CreateLivestream = () => {
   const [streamTime, setStreamTime] = useState("");
-  const [streamDetails, setStreamDetails] = useState<FormData | null>(null)
+  const [streamDetails, setStreamDetails] = useState<FormData | null>(null);
   const createLiveStream = useCreateLivestream();
-  const navigate = useNavigate();
+  // const navigate = useNavigate();
   const { setShowAuthFlow } = useDynamicContext();
-  const { user } = useContext(AuthContext)
+  const { user } = useContext(AuthContext);
 
   const validation = yup.object().shape({
     streamName: yup.string().required("Please, name your stream"),
@@ -38,9 +35,9 @@ const CreateLivestream = () => {
     resolver: yupResolver(validation),
   });
   const onSubmit = (values: FormData) => {
-      setStreamDetails(values)
+    setStreamDetails(values);
     if (Object.values(user).length === 0) {
-      setShowAuthFlow(true)
+      setShowAuthFlow(true);
       return;
     }
     const { streamName } = values;
@@ -51,15 +48,7 @@ const CreateLivestream = () => {
     createLiveStream.mutate(data);
   };
 
-  const copyText = async (text: string) => {
-    try {
-      await navigator.clipboard.writeText(text);
-      toast.success("Link copied");
-    } catch (error: any) {
-      console.error(error.message);
-    }
-  };
-console.log(createLiveStream.data)
+  console.log(createLiveStream.data);
   useEffect(() => {
     if (Object.values(user).length !== 0 && streamDetails !== null) {
       toast.success("Logged in successfully");
@@ -137,74 +126,7 @@ console.log(createLiveStream.data)
           </form>
         </div>
         {createLiveStream.isSuccess && (
-          <Modal bgColor="bg-modal-black">
-            <div className="bg-[#222] w-[78%] mx-auto rounded-xl p-5 text-black my-28 lg:w-[28%]">
-              <div className="flex flex-row justify-between items-center mb-4">
-                <p className="text-xl text-white font-semibold">Share</p>
-              </div>
-              <div className="flex flex-row justify-between items-center my-3.5 w-full">
-                <button className="bg-yellow rounded-full p-3">
-                  <FaXTwitter className="text-xl" />
-                </button>
-                <button className="bg-yellow rounded-full p-3">
-                  <FaFacebook className="text-xl" />
-                </button>
-                <button className="bg-yellow rounded-full p-3">
-                  <AiFillInstagram className="text-xl" />
-                </button>
-                <button className="bg-yellow rounded-full p-3">
-                  <FaTiktok className="text-xl" />
-                </button>
-              </div>
-              <div className="flex flex-col">
-                <div className="my-2">
-                  <p className="capitalize font-semibold text-sm text-white">
-                    for Co-host
-                  </p>
-                  <div className="bg-[#222] border border-yellow flex flex-row items-center rounded-md mt-3 p-2 justify-between">
-                    <p className="text-sm truncate text-white">{`${window.location.hostname}/${createLiveStream?.data?.name}?mode=host`}</p>
-                    <TbCopy
-                      className="text-white text-3xl font-semibold"
-                      onClick={() =>
-                        copyText(
-                          `${window.location.hostname}/${createLiveStream?.data?.name}?mode=host`
-                        )
-                      }
-                    />
-                  </div>
-                </div>
-
-                <div className="mt-2">
-                  <p className="capitalize font-semibold text-sm text-white">
-                    for Audience
-                  </p>
-                  <div className="bg-[#222] border border-yellow flex flex-row items-center rounded-md mt-3 p-2 justify-between">
-                    <p className="text-sm truncate text-white">{`${window.location.hostname}/${createLiveStream?.data?.name}?mode=guest`}</p>
-                    <TbCopy
-                      className="text-white text-3xl font-semibold"
-                      onClick={() =>
-                        copyText(
-                          `${window.location.hostname}/${createLiveStream?.data?.name}?mode=guest`
-                        )
-                      }
-                    />
-                  </div>
-                </div>
-              </div>
-              {streamTime === "" && (
-                <button
-                  className="w-full mt-3.5 bg-yellow text-black py-2 rounded-md"
-                  onClick={() =>
-                    navigate(
-                      `${window.location.hostname}/${createLiveStream?.data?.name}?mode=host`
-                    )
-                  }
-                >
-                  Join call
-                </button>
-              )}
-            </div>
-          </Modal>
+          <ShareModal meetingId={createLiveStream?.data?.name} />
         )}
         <Toaster />
       </>

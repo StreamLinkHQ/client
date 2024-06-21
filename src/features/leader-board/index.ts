@@ -1,0 +1,1 @@
+export { default as LeaderBoard } from "./leader-board-modal"

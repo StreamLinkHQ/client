@@ -36,16 +36,19 @@ const FeatureModal = ({ setShowModal }: FeatureModalProps) => {
     {
       featureIcon: <MdQuiz className="text-yellow text-2xl cursor-pointer" />,
       featureName: "Quiz",
+      comingSoon: false
     },
     {
       featureIcon: (
         <RiAuctionFill className="text-yellow text-2xl cursor-pointer" />
       ),
       featureName: "Auction",
+      comingSoon: true
     },
     {
       featureIcon: <BsCart3 className="text-yellow text-2xl cursor-pointer" />,
       featureName: "Sell",
+      comingSoon: true
     },
   ];
   const [feature, setFeature] = useState("");

@@ -2,7 +2,7 @@ import { useContext, useState } from "react";
 import { useParams } from "react-router-dom";
 import { useSendBalance } from "@dynamic-labs/sdk-react-core";
 import { PublicKey, LAMPORTS_PER_SOL } from "@solana/web3.js";
-import { QuizContext } from "../../context";
+import { QuizContext, CreatorContext } from "../../context";
 import { getCurrentSolRate } from "../../utils";
 import QuestionCard from "./question/question-card";
 import QuizHeader from "./quiz-header";
@@ -21,6 +21,7 @@ const QuizPreviewer = ({
   setPreview,
 }: QuizPreviewerProps) => {
   const { quizDetails, setQuizDetails } = useContext(QuizContext);
+  const { setFeaturesAdded } = useContext(CreatorContext)
   const [current, setCurrent] = useState<number>();
   const { id } = useParams();
   const {
@@ -85,6 +86,7 @@ const QuizPreviewer = ({
         value: amount,
       });
       createQuiz.mutate(newQuiz);
+      setFeaturesAdded(true)
       return tx;
     } catch (error) {
       console.log(error);
