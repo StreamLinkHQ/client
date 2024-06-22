@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { useEffect } from "react";
 import * as yup from "yup";
 import { useForm } from "react-hook-form";

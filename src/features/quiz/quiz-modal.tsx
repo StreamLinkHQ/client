@@ -1,8 +1,8 @@
 import { useState } from "react";
 import { IoMdClose } from "react-icons/io";
+import { QuizContextProvider } from "../../context";
 import { Modal } from "../ui";
 import QuizForm from "./quiz-form";
-import { QuizContextProvider } from "../../context";
 
 type QuizModalProps = {
   setShowModal: Function;

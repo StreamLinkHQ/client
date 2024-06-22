@@ -11,7 +11,8 @@ export type FeatureModalProps = {
 const AudienceModal = ({ setShowModal }: FeatureModalProps) => {
   const { id } = useParams();
   // @ts-ignore comment
-  const { data } = useGetQuiz("dvkb-122e-iz33");
+  // const { data } = useGetQuiz("dvkb-122e-iz33");
+  const { data } = useGetQuiz(id);
   return (
     <Modal bgColor="bg-modal-black">
       <>

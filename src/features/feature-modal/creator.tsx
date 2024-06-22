@@ -51,7 +51,7 @@ const FeatureModal = ({ setShowModal }: FeatureModalProps) => {
       comingSoon: true
     },
   ];
-  const [feature, setFeature] = useState("");
+  const [feature, setFeature] = useState<string>("");
   return (
     <>
       <Modal bgColor="bg-modal-black">
