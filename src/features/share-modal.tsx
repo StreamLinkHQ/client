@@ -1,4 +1,5 @@
 import toast, { Toaster } from "react-hot-toast";
+import { IoMdClose } from "react-icons/io";
 import { FaXTwitter, FaFacebook, FaTiktok } from "react-icons/fa6";
 import { AiFillInstagram } from "react-icons/ai";
 import { TbCopy } from "react-icons/tb";
@@ -6,9 +7,10 @@ import { Modal } from "./ui";
 
 type ShareModalProps = {
   meetingId: string;
+  setShowModal: () => void;
 };
 
-const ShareModal = ({ meetingId }: ShareModalProps) => {
+const ShareModal = ({ meetingId, setShowModal }: ShareModalProps) => {
   const copyText = async (text: string) => {
     try {
       await navigator.clipboard.writeText(text);
@@ -21,6 +23,12 @@ const ShareModal = ({ meetingId }: ShareModalProps) => {
     <>
       <Modal bgColor="bg-modal-black">
         <div className="bg-[#222] w-[78%] mx-auto rounded-xl p-5 text-black my-28 lg:w-[28%]">
+          <div
+            className="bg-black rounded-full ml-auto w-[25px] h-[25px] p-1 flex flex-col items-center cursor-pointer mb-4"
+            onClick={setShowModal}
+          >
+            <IoMdClose className="text-yellow text-lg cursor-pointer" />
+          </div>
           <div className="flex flex-row justify-between items-center mb-4">
             <p className="text-xl text-white font-semibold">Share</p>
           </div>

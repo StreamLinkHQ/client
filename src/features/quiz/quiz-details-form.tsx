@@ -11,6 +11,7 @@ type FormData = {
   numberOfQuestions: number;
   quizDuration: number;
   pointsPerQuestion: number;
+  numberOfWinners: number;
 };
 
 type QuizDetailsFormProps = {
@@ -24,9 +25,14 @@ const QuizDetailsForm = ({ stepFunc }: QuizDetailsFormProps) => {
     topic: yup.string().required("Please, name your quiz"),
     description: yup.string(),
     reward: yup.number().required("Please, enter reward amount in USDC"),
-    numberOfQuestions: yup.number().required("Please, enter number of questions"),
+    numberOfQuestions: yup
+      .number()
+      .required("Please, enter number of questions"),
     quizDuration: yup.number().required("Please, duration in minutes"),
-    pointsPerQuestion: yup.number().required("Please, enter points per question"),
+    pointsPerQuestion: yup
+      .number()
+      .required("Please, enter points per question"),
+    numberOfWinners: yup.number().required("Please, select number of winners"),
   });
 
   const {
@@ -88,7 +94,7 @@ const QuizDetailsForm = ({ stepFunc }: QuizDetailsFormProps) => {
           </p>
         </div>
         <div className="mt-2.5">
-          <p className="mb-1">Question point</p>
+          <p className="mb-1">Points per question</p>
           <input
             type="text"
             className="border w-full border-border-ash p-1.5 rounded-md focus:outline-none text-white my-1 bg-[#222]"
@@ -96,6 +102,22 @@ const QuizDetailsForm = ({ stepFunc }: QuizDetailsFormProps) => {
           />
           <p className="text-red-500 text-xs">
             {errors.pointsPerQuestion?.message}
+          </p>
+        </div>
+        <div className="">
+          <p className="mb-1">Number of Winners</p>
+          <select
+            {...register("numberOfWinners")}
+            className="border w-full border-border-ash p-1.5 rounded-md focus:outline-none text-white my-1 bg-[#222]"
+          >
+            <option value=""></option>
+            <option value="1">One Winner (100%)</option>
+            <option value="3">Three Winners (50%, 30%, 20%)</option>
+            <option value="5">Five Winners (20%, 20%, 20%, 20%, 20%)</option>
+          </select>
+          <p className="text-red-500 text-xs">
+            {" "}
+            {errors.numberOfWinners?.message}
           </p>
         </div>
         <div className="my-2 bg-[#222]">

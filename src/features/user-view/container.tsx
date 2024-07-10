@@ -8,9 +8,10 @@ import Peer from "./peer";
 type ContainerProps = {
   userType: string | null;
   setJoin: Function;
+  meetingId: string | undefined;
 };
 
-const Container = ({ userType, setJoin }: ContainerProps) => {
+const Container = ({ userType, setJoin, meetingId }: ContainerProps) => {
   const { peerIds } = usePeerIds({ roles: ["host", "co-host"] });
   const { messages } = useContext(ChatContext);
   const containerRef = useRef<HTMLInputElement>(null);
@@ -46,9 +47,9 @@ const Container = ({ userType, setJoin }: ContainerProps) => {
         ))}
       </div>
       {userType === "host" ? (
-        <Creator userType={userType} setJoin={setJoin} />
+        <Creator userType={userType} setJoin={setJoin} meetingId={meetingId}/>
       ) : (
-        <Audience userType={userType} setJoin={setJoin} />
+        <Audience userType={userType} setJoin={setJoin} meetingId={meetingId}/>
       )}
     </div>
   );

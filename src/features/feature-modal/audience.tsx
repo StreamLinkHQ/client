@@ -2,17 +2,25 @@ import { useParams } from "react-router-dom";
 import { IoMdClose } from "react-icons/io";
 import { Modal } from "../ui";
 import { QuizResponse, useGetQuiz } from "../quiz";
-// import { transferSplToken } from "../../utils";
 
 export type FeatureModalProps = {
   setShowModal: Function;
+  started: boolean;
+  allFeatures: string[];
 };
 
-const AudienceModal = ({ setShowModal }: FeatureModalProps) => {
+const AudienceModal = ({
+  setShowModal,
+  started,
+  allFeatures,
+}: FeatureModalProps) => {
+
+  console.log({allFeatures})
+
   const { id } = useParams();
   // @ts-ignore comment
-  // const { data } = useGetQuiz("dvkb-122e-iz33");
   const { data } = useGetQuiz(id);
+
   return (
     <Modal bgColor="bg-modal-black">
       <>
@@ -24,9 +32,15 @@ const AudienceModal = ({ setShowModal }: FeatureModalProps) => {
             <IoMdClose className="text-yellow text-lg cursor-pointer" />
           </div>
           <div>
-            {/* <p>Quiz</p> */}
-            {/* <button onClick={transferSplToken}>Called!!!!</button> */}
-            {data && data.quizDuration && <QuizResponse data={data} />}
+            {started && allFeatures.includes("quiz") ? (
+              <div>
+                {data && data.quizDuration && <QuizResponse data={data} />}
+              </div>
+            ) : (
+              <div className="">
+                <p className="">The Quiz hasn't started yet</p>
+              </div>
+            )}
           </div>
         </div>
       </>

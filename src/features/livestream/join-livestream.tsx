@@ -32,7 +32,7 @@ const JoinLivestream = () => {
       <div className="bg-[#222] h-screen w-full">
         {joinedCall ? (
           <ChatContextProvider>
-            <Container userType={mode} setJoin={setJoinedCall} />
+            <Container userType={mode} setJoin={setJoinedCall} meetingId={id}/>
           </ChatContextProvider>
         ) : (
           <WaitRoom

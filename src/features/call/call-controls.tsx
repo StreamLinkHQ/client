@@ -23,7 +23,7 @@ type CallControlsProps = {
 };
 
 const CallControls = ({ userType, setJoin }: CallControlsProps) => {
-  const [showChatInput, setShowChatInput] = useState(false);
+  const [showChatInput, setShowChatInput] = useState<boolean>(false);
   const {
     stream: videoStream,
     enableVideo,

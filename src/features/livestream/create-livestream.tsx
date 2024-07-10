@@ -17,6 +17,7 @@ type FormData = {
 const CreateLivestream = () => {
   const [streamTime, setStreamTime] = useState("");
   const [streamDetails, setStreamDetails] = useState<FormData | null>(null);
+  const [showShareModal, setShowShareModal] = useState<boolean>(true);
   const createLiveStream = useCreateLivestream();
   // const navigate = useNavigate();
   const { setShowAuthFlow } = useDynamicContext();
@@ -30,6 +31,7 @@ const CreateLivestream = () => {
   const {
     register,
     handleSubmit,
+    reset,
     formState: { errors },
   } = useForm({
     resolver: yupResolver(validation),
@@ -49,6 +51,8 @@ const CreateLivestream = () => {
   };
 
   console.log(createLiveStream.data);
+  console.log(createLiveStream.error);
+
   useEffect(() => {
     if (Object.values(user).length !== 0 && streamDetails !== null) {
       toast.success("Logged in successfully");
@@ -56,6 +60,12 @@ const CreateLivestream = () => {
       return;
     }
   }, [user]);
+
+  const closeShareModal = () => {
+    reset();
+    setStreamTime("")
+    setShowShareModal(false);
+  };
 
   return (
     <HomeLayout>
@@ -125,8 +135,11 @@ const CreateLivestream = () => {
             </button>
           </form>
         </div>
-        {createLiveStream.isSuccess && (
-          <ShareModal meetingId={createLiveStream?.data?.name} />
+        {createLiveStream.isSuccess && showShareModal && (
+          <ShareModal
+            meetingId={createLiveStream?.data?.name}
+            setShowModal={closeShareModal}
+          />
         )}
         <Toaster />
       </>

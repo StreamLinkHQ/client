@@ -32,6 +32,7 @@ const QuizPreviewer = ({
     description,
     quizDuration,
     pointsPerQuestion,
+    numberOfWinners
   } = quizDetails;
   const alphabets = ["A", "B", "C", "D"];
   const createQuiz = useCreateQuiz();
@@ -52,6 +53,7 @@ const QuizPreviewer = ({
     reward,
     quizDuration,
     pointsPerQuestion,
+    numberOfWinners,
     questions: newQuestions,
     liveStreamId: id,
   };

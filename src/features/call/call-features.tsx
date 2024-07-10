@@ -1,20 +1,63 @@
-import { useState } from "react";
+import { useState, useContext, useEffect } from "react";
 import { FaPlus } from "react-icons/fa";
 import { IoIosShareAlt, IoMdWallet } from "react-icons/io";
-import { BsAppIndicator } from "react-icons/bs";
+import { VscDebugStart } from "react-icons/vsc";
+import { BsAppIndicator, BsStopCircle } from "react-icons/bs";
 import { MdLeaderboard } from "react-icons/md";
+import { socket } from "../../config";
+import { CreatorContext } from "../../context";
+import { getWinners } from "../../utils";
 import { Wallet } from "../auth";
 import { CreatorModal, AudienceModal } from "../feature-modal";
 import { LeaderBoard } from "../leader-board";
+import { useGetQuizScores } from "../quiz";
+import { usePayParticipants } from "../payment";
 
 type CallFeatureProps = {
   userType: string | null;
+  meetingId: string | undefined;
 };
 
-const CallFeatures = ({ userType }: CallFeatureProps) => {
-  const [showWallet, setShowWallet] = useState(false);
-  const [showFeature, setShowFeature] = useState(false);
-  const [showWinners, setShowWinners] = useState(false);
+const CallFeatures = ({ userType, meetingId }: CallFeatureProps) => {
+  const [showWallet, setShowWallet] = useState<boolean>(false);
+  const [showFeature, setShowFeature] = useState<boolean>(false);
+  const [allFeatures, setAllFeatures] = useState<string[]>([]);
+  const [startAddon, setStartAddon] = useState<boolean>(false);
+  const [showWinners, setShowWinners] = useState<boolean>(false);
+  const { featuresAdded } = useContext(CreatorContext);
+  // @ts-ignore comment
+  const { data, refetch } = useGetQuizScores(meetingId);
+  const payParticipants = usePayParticipants();
+
+  const start = () => {
+    socket.emit("startAddon", { start: true, addOn: ["quiz"] });
+    console.log("heyyy");
+  };
+
+  const stopQuiz = () => {
+    refetch();
+    const winners = getWinners(data);
+    console.log(winners);
+    const participantsData = {
+      recipients: winners,
+      tokenName: "abj"
+    }
+    payParticipants.mutate(participantsData);
+  };
+
+  console.log(data);
+
+  useEffect(() => {
+    const updateState = (data: any) => {
+      console.log(data);
+      setStartAddon(data.start);
+      setAllFeatures(data.addOn);
+    };
+    socket.on("responseEvent", updateState);
+    return () => {
+      socket.off("responseEvent", updateState);
+    };
+  }, []);
 
   return (
     <>
@@ -57,6 +100,22 @@ const CallFeatures = ({ userType }: CallFeatureProps) => {
             <p className="text-sm">Addon</p>
           </div>
         )}
+        {userType === "host" && featuresAdded && (
+          <div className="flex flex-col items-center mb-2.5" onClick={start}>
+            <button className="bg-[#FFFFFF1A] rounded-full p-3">
+              <VscDebugStart className="text-xl" />
+            </button>
+            <p className="text-sm">Start</p>
+          </div>
+        )}
+        {userType === "host" && (
+          <div className="flex flex-col items-center mb-2.5" onClick={stopQuiz}>
+            <button className="bg-[#FFFFFF1A] rounded-full p-3">
+              <BsStopCircle className="text-xl" />
+            </button>
+            <p className="text-sm">Stop Quiz</p>
+          </div>
+        )}
         {userType === "host" && (
           <div
             className="flex flex-col items-center"
@@ -74,7 +133,11 @@ const CallFeatures = ({ userType }: CallFeatureProps) => {
         <CreatorModal setShowModal={setShowFeature} />
       )}
       {showFeature && userType === "guest" && (
-        <AudienceModal setShowModal={setShowFeature} />
+        <AudienceModal
+          setShowModal={setShowFeature}
+          started={startAddon}
+          allFeatures={allFeatures}
+        />
       )}
       {showWinners && <LeaderBoard setShowModal={setShowWinners} />}
     </>
