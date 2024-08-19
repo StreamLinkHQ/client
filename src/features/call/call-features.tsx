@@ -1,17 +1,17 @@
-import { useState, useContext, useEffect } from "react";
+import { useState, useEffect } from "react";
 import { FaPlus } from "react-icons/fa";
 import { IoIosShareAlt, IoMdWallet } from "react-icons/io";
-import { VscDebugStart } from "react-icons/vsc";
-import { BsAppIndicator, BsStopCircle } from "react-icons/bs";
-import { MdLeaderboard } from "react-icons/md";
+// import { VscDebugStart } from "react-icons/vsc";
+import { BsAppIndicator } from "react-icons/bs";
+// import { MdLeaderboard } from "react-icons/md";
 import { socket } from "../../config";
-import { CreatorContext } from "../../context";
-import { getWinners } from "../../utils";
+// import { CreatorContext } from "../../context";
+// import { getWinners } from "../../utils";
 import { Wallet } from "../auth";
 import { CreatorModal, AudienceModal } from "../feature-modal";
 import { LeaderBoard } from "../leader-board";
 import { useGetQuizScores } from "../quiz";
-import { usePayParticipants } from "../payment";
+// import { usePayParticipants } from "../payment";
 
 type CallFeatureProps = {
   userType: string | null;
@@ -24,28 +24,28 @@ const CallFeatures = ({ userType, meetingId }: CallFeatureProps) => {
   const [allFeatures, setAllFeatures] = useState<string[]>([]);
   const [startAddon, setStartAddon] = useState<boolean>(false);
   const [showWinners, setShowWinners] = useState<boolean>(false);
-  const { featuresAdded } = useContext(CreatorContext);
+  // const { featuresAdded } = useContext(CreatorContext);
   // @ts-ignore comment
   const { data, refetch } = useGetQuizScores(meetingId);
-  const payParticipants = usePayParticipants();
+  // const payParticipants = usePayParticipants();
 
-  const start = () => {
-    socket.emit("startAddon", { start: true, addOn: ["quiz"] });
-    console.log("heyyy");
-  };
+  // const start = () => {
+  //   socket.emit("startAddon", { start: true, addOn: ["quiz"] });
+  //   console.log("heyyy");
+  // };
 
-  const stopQuiz = () => {
-    refetch();
-    const winners = getWinners(data);
-    console.log(winners);
-    const participantsData = {
-      recipients: winners,
-      tokenName: "abj"
-    }
-    payParticipants.mutate(participantsData);
-  };
+  // const stopQuiz = () => {
+  //   refetch();
+  //   const winners = getWinners(data);
+  //   console.log(winners);
+  //   const participantsData = {
+  //     recipients: winners,
+  //     tokenName: "abj"
+  //   }
+  //   payParticipants.mutate(participantsData);
+  // };
 
-  console.log(data);
+  // console.log(data);
 
   useEffect(() => {
     const updateState = (data: any) => {
@@ -100,7 +100,7 @@ const CallFeatures = ({ userType, meetingId }: CallFeatureProps) => {
             <p className="text-sm">Addon</p>
           </div>
         )}
-        {userType === "host" && featuresAdded && (
+        {/* {userType === "host" && featuresAdded && (
           <div className="flex flex-col items-center mb-2.5" onClick={start}>
             <button className="bg-[#FFFFFF1A] rounded-full p-3">
               <VscDebugStart className="text-xl" />
@@ -126,7 +126,7 @@ const CallFeatures = ({ userType, meetingId }: CallFeatureProps) => {
             </button>
             <p className="text-sm">Leaderboard</p>
           </div>
-        )}
+        )} */}
       </div>
       {showWallet && <Wallet setShowModal={setShowWallet} />}
       {showFeature && userType === "host" && (

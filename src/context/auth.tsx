@@ -26,6 +26,7 @@ export const AuthContextProvider = ({ children }: AuthProps) => {
     const currentUser = JSON.parse(localStorage.getItem("user") || "{}");
     return currentUser;
   });
+  console.log({user})
   return (
     <DynamicContextProvider
       settings={{
