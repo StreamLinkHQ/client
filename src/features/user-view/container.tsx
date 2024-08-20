@@ -12,7 +12,7 @@ type ContainerProps = {
 };
 
 const Container = ({ userType, setJoin, meetingId }: ContainerProps) => {
-  const { peerIds } = usePeerIds({ roles: ["host", "co-host"] });
+  const { peerIds } = usePeerIds({ roles: ["host", "co-host", "guest"] });
   const { messages } = useContext(ChatContext);
   const containerRef = useRef<HTMLInputElement>(null);
   console.log(messages);
@@ -29,10 +29,10 @@ const Container = ({ userType, setJoin, meetingId }: ContainerProps) => {
   }, [containerRef, messages]);
 
   return (
-    <div className="relative h-screen w-full">
-      <div className="absolute h-screen top-0 z-50 border border-red-600 w-full">
+    <div className="relative h-screen w-screen overflow-hidden">
+      <div className="relative z-50 border border-green-600 w-full">
         {peerIds.map((peerId) => {
-          return <Peer peerId={peerId} key={peerId} />;
+          return <Peer peerId={peerId} key={peerId} userType={userType}/>;
         })}
       </div>
       <div
