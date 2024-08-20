@@ -2,33 +2,33 @@
 import {
   useRemoteVideo,
   useRemoteAudio,
-  useRemoteScreenShare,
+  // useRemoteScreenShare,
 } from "@huddle01/react/hooks";
 import { Audio, Video } from "@huddle01/react/components";
-import { useEffect, useState } from "react";
+// import { useEffect, useState } from "react";
 
 type PeerProps = {
   peerId: string;
   userType: string | null;
 };
-const Peer = ({ peerId, userType }: PeerProps) => {
-  const [isUserHost, setIsUserHost] = useState(false)
+const Peer = ({ peerId }: PeerProps) => {
+  // const [isUserHost, setIsUserHost] = useState(false)
   const { stream: videoStream } = useRemoteVideo({ peerId });
   const { stream: audioStream } = useRemoteAudio({ peerId });
   // const { videoStream: screenVideoStream, audioStream: screenAudioStream } =
   //   useRemoteScreenShare({ peerId });
 
-    useEffect(
-      () => {
-        if(userType === "host"){
-          setIsUserHost(true)
-        }
-        else {
-          setIsUserHost(false)
-        }
-      },
-      [userType],
-    )
+    // useEffect(
+    //   () => {
+    //     if(userType === "host"){
+    //       setIsUserHost(true)
+    //     }
+    //     else {
+    //       setIsUserHost(false)
+    //     }
+    //   },
+    //   [userType],
+    // )
     
   return (
     <div className="h-screen w-full absolute top-0 border border-red-500 overflow-hidden">
