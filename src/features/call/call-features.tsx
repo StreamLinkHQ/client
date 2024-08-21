@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import { FaPlus } from "react-icons/fa";
 import { IoIosShareAlt, IoMdWallet } from "react-icons/io";
 // import { VscDebugStart } from "react-icons/vsc";
-import { BsAppIndicator } from "react-icons/bs";
+// import { BsAppIndicator } from "react-icons/bs";
 // import { MdLeaderboard } from "react-icons/md";
 import { socket } from "../../config";
 // import { CreatorContext } from "../../context";
@@ -74,7 +74,7 @@ const CallFeatures = ({ userType, meetingId }: CallFeatureProps) => {
           </div>
         )}
         <div className="flex flex-col items-center my-2.5">
-          <button className="bg-[#FFFFFF1A] rounded-full p-3">
+          <button className="bg-[#222] rounded-full p-3">
             <IoIosShareAlt className="text-xl" />
           </button>
           <p className="text-sm">Share</p>
@@ -83,23 +83,23 @@ const CallFeatures = ({ userType, meetingId }: CallFeatureProps) => {
           className="flex flex-col items-center mb-2.5"
           onClick={() => setShowWallet(true)}
         >
-          <button className="bg-[#FFFFFF1A] rounded-full p-3">
+          <button className="bg-[#222] rounded-full p-3">
             <IoMdWallet className="text-xl" />
           </button>
           <p className="text-sm">Wallet</p>
         </div>
 
-        {userType === "guest" && (
+        {/* {userType === "guest" && (
           <div
             className="flex flex-col items-center mb-2.5"
             onClick={() => setShowFeature(true)}
           >
-            <button className="bg-[#FFFFFF1A] rounded-full p-3">
+            <button className="bg-[#222] rounded-full p-3">
               <BsAppIndicator className="text-xl" />
             </button>
             <p className="text-sm">Addon</p>
           </div>
-        )}
+        )} */}
         {/* {userType === "host" && featuresAdded && (
           <div className="flex flex-col items-center mb-2.5" onClick={start}>
             <button className="bg-[#FFFFFF1A] rounded-full p-3">

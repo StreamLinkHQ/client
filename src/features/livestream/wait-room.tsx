@@ -117,7 +117,7 @@ const WaitRoom = ({ showButton, token, roomId, setJoin }: WaitRoomProps) => {
                 className="text-black bg-yellow rounded-md py-1.5 px-5 font-bold"
                 onClick={joinCall}
               >
-                Join Call
+                Join Stream
               </button>
             )}
           </div>
