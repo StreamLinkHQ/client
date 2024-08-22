@@ -1,16 +1,17 @@
 import toast, { Toaster } from "react-hot-toast";
 import { IoMdClose } from "react-icons/io";
-import { FaXTwitter, FaFacebook, FaTiktok } from "react-icons/fa6";
-import { AiFillInstagram } from "react-icons/ai";
+// import { FaXTwitter, FaFacebook, FaTiktok } from "react-icons/fa6";
+// import { AiFillInstagram } from "react-icons/ai";
 import { TbCopy } from "react-icons/tb";
 import { Modal } from "./ui";
 
 type ShareModalProps = {
-  meetingId: string;
+  meetingId: string | undefined;
   setShowModal: () => void;
+  userType?: string | null;
 };
 
-const ShareModal = ({ meetingId, setShowModal }: ShareModalProps) => {
+const ShareModal = ({ meetingId, setShowModal, userType }: ShareModalProps) => {
   const copyText = async (text: string) => {
     try {
       await navigator.clipboard.writeText(text);
@@ -32,7 +33,7 @@ const ShareModal = ({ meetingId, setShowModal }: ShareModalProps) => {
           <div className="flex flex-row justify-between items-center mb-4">
             <p className="text-xl text-white font-semibold">Share</p>
           </div>
-          <div className="flex flex-row justify-between items-center my-3.5 w-full">
+          {/* <div className="flex flex-row justify-between items-center my-3.5 w-full">
             <button className="bg-yellow rounded-full p-3">
               <FaXTwitter className="text-xl" />
             </button>
@@ -45,25 +46,26 @@ const ShareModal = ({ meetingId, setShowModal }: ShareModalProps) => {
             <button className="bg-yellow rounded-full p-3">
               <FaTiktok className="text-xl" />
             </button>
-          </div>
+          </div> */}
           <div className="flex flex-col">
-            <div className="my-2">
-              <p className="capitalize font-semibold text-sm text-white">
-                for Co-host
-              </p>
-              <div className="bg-[#222] border border-yellow flex flex-row items-center rounded-md mt-3 p-2 justify-between">
-                <p className="text-sm truncate text-white">{`${window.location.hostname}/${meetingId}?mode=host`}</p>
-                <TbCopy
-                  className="text-white text-3xl font-semibold"
-                  onClick={() =>
-                    copyText(
-                      `${window.location.hostname}/${meetingId}?mode=host`
-                    )
-                  }
-                />
+            {userType === "host" && (
+              <div className="my-2">
+                <p className="capitalize font-semibold text-sm text-white">
+                  for Co-host
+                </p>
+                <div className="bg-[#222] border border-yellow flex flex-row items-center rounded-md mt-3 p-2 justify-between">
+                  <p className="text-sm truncate text-white">{`${window.location.hostname}/${meetingId}?mode=host`}</p>
+                  <TbCopy
+                    className="text-white text-3xl font-semibold"
+                    onClick={() =>
+                      copyText(
+                        `${window.location.hostname}/${meetingId}?mode=host`
+                      )
+                    }
+                  />
+                </div>
               </div>
-            </div>
-
+            )}
             <div className="mt-2">
               <p className="capitalize font-semibold text-sm text-white">
                 for Audience
@@ -90,17 +92,3 @@ const ShareModal = ({ meetingId, setShowModal }: ShareModalProps) => {
 
 export default ShareModal;
 
-{
-  /* {streamTime === "" && (  // createLiveStream?.data?.name
-                <button
-                  className="w-full mt-3.5 bg-yellow text-black py-2 rounded-md"
-                  onClick={() =>
-                    navigate(
-                      `${window.location.hostname}/${meetingId}?mode=host`
-                    )
-                  }
-                >
-                  Join call
-                </button>
-              )} */
-}

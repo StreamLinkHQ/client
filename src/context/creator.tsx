@@ -17,8 +17,7 @@ type CreatorProps = {
 export const CreatorContext = createContext<IntialCreatorState>(initialState);
 
 export const CreatorContextProvider = ({ children }: CreatorProps) => {
-  const [featuresAdded, setFeaturesAdded] = useState<boolean>(true);
-  console.log(featuresAdded);
+  const [featuresAdded, setFeaturesAdded] = useState<boolean>(false);
   return (
     <CreatorContext.Provider value={{ featuresAdded, setFeaturesAdded }}>
       {children}

@@ -4,7 +4,7 @@ import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useDynamicContext } from "@dynamic-labs/sdk-react-core";
 import toast, { Toaster } from "react-hot-toast";
-import { HomeLayout } from "../ui";
+import { HomeLayout, Loader, ErrorScreen } from "../ui";
 import { AuthContext } from "../../context";
 import { useCreateLivestream } from "./use-livestream";
 import ShareModal from "../share-modal";
@@ -63,7 +63,7 @@ const CreateLivestream = () => {
 
   const closeShareModal = () => {
     reset();
-    setStreamTime("")
+    setStreamTime("");
     setShowShareModal(false);
   };
 
@@ -135,11 +135,16 @@ const CreateLivestream = () => {
             </button>
           </form>
         </div>
+        {createLiveStream.isPending && <Loader />}
         {createLiveStream.isSuccess && showShareModal && (
           <ShareModal
             meetingId={createLiveStream?.data?.name}
             setShowModal={closeShareModal}
+            userType={"host"}
           />
+        )}
+        {createLiveStream.isError && (
+          <ErrorScreen message={createLiveStream.error.message} />
         )}
         <Toaster />
       </>

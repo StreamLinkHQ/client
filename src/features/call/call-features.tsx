@@ -11,6 +11,7 @@ import { Wallet } from "../auth";
 import { CreatorModal, AudienceModal } from "../feature-modal";
 import { LeaderBoard } from "../leader-board";
 import { useGetQuizScores } from "../quiz";
+import ShareModal from "../share-modal";
 // import { usePayParticipants } from "../payment";
 
 type CallFeatureProps = {
@@ -24,6 +25,7 @@ const CallFeatures = ({ userType, meetingId }: CallFeatureProps) => {
   const [allFeatures, setAllFeatures] = useState<string[]>([]);
   const [startAddon, setStartAddon] = useState<boolean>(false);
   const [showWinners, setShowWinners] = useState<boolean>(false);
+  const [showShareModal, setShowShareModal] = useState<boolean>(false);
   // const { featuresAdded } = useContext(CreatorContext);
   // @ts-ignore comment
   const { data, refetch } = useGetQuizScores(meetingId);
@@ -59,6 +61,9 @@ const CallFeatures = ({ userType, meetingId }: CallFeatureProps) => {
     };
   }, []);
 
+  const closeShareModal = () => {
+    setShowShareModal(false);
+  };
   return (
     <>
       <div className="absolute right-5 bottom-1/4 flex flex-col items-center z-50 text-yellow">
@@ -73,7 +78,10 @@ const CallFeatures = ({ userType, meetingId }: CallFeatureProps) => {
             <p className="text-sm">Add</p>
           </div>
         )}
-        <div className="flex flex-col items-center my-2.5">
+        <div
+          className="flex flex-col items-center my-2.5"
+          onClick={() => setShowShareModal(true)}
+        >
           <button className="bg-[#222] rounded-full p-3">
             <IoIosShareAlt className="text-xl" />
           </button>
@@ -140,6 +148,13 @@ const CallFeatures = ({ userType, meetingId }: CallFeatureProps) => {
         />
       )}
       {showWinners && <LeaderBoard setShowModal={setShowWinners} />}
+      {showShareModal && (
+        <ShareModal
+          userType={userType}
+          meetingId={meetingId}
+          setShowModal={closeShareModal}
+        />
+      )}
     </>
   );
 };

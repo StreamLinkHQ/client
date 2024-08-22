@@ -19,7 +19,6 @@ export const ChatContext = createContext<IntialChatState>(initialState);
 
 export const ChatContextProvider = ({ children }: ChatProps) => {
   const [messages, setMessages] = useState<ChatMessage[]>([]);
-  console.log(messages);
   return (
     <ChatContext.Provider value={{ messages, setMessages }}>
       {children}

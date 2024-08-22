@@ -1,8 +1,8 @@
-import { useContext, useState } from "react";
+import { useContext, useState, useEffect } from "react";
 import { BsSendFill } from "react-icons/bs";
 import { IoMdClose } from "react-icons/io";
-import { useDataMessage } from "@huddle01/react/hooks";
 import { ChatContext, AuthContext } from "../../context";
+import { socket } from "../../config";
 import { Modal } from "../ui";
 
 type CallChatProps = {
@@ -14,24 +14,26 @@ const CallChat = ({ setShowModal }: CallChatProps) => {
   const { user } = useContext(AuthContext);
   const [text, setText] = useState<string>("");
 
-  const { sendData } = useDataMessage({
-    onMessage: (payload, _, label) => {
-      if (label === "chat") {
-        setMessages((prev: any) => [
-          ...prev,
-          { text: payload, sender: user?.name },
-        ]);
-      }
-    },
-  });
+  useEffect(() => {
+    // Listening for incoming chat messages
+    socket.on("message", (message) => {
+      setMessages((prev: any) => [
+        ...prev,
+        { text: message, sender: user?.name },
+      ]);
+    });
+
+    // Cleanup on component unmount
+    return () => {
+      socket.off("message");
+    };
+  }, []);
 
   const sendMessage = () => {
-    sendData({
-      to: "*",
-      payload: text,
-      label: "chat",
-    });
-    setText("");
+    if (text.trim()) {
+      socket.emit("message", text);
+      setText("");
+    }
   };
 
   return (
