@@ -17,6 +17,7 @@ const CallChat = ({ setShowModal }: CallChatProps) => {
   useEffect(() => {
     // Listening for incoming chat messages
     socket.on("message", (message) => {
+      console.log(message)
       setMessages((prev: any) => [
         ...prev,
         { text: message.text, sender: message.sender }
@@ -27,7 +28,7 @@ const CallChat = ({ setShowModal }: CallChatProps) => {
     return () => {
       socket.off("message");
     };
-  }, []);
+  }, [setMessages]);
 
   const sendMessage = () => {
     if (text.trim()) {
