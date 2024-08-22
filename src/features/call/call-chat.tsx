@@ -19,7 +19,7 @@ const CallChat = ({ setShowModal }: CallChatProps) => {
     socket.on("message", (message) => {
       setMessages((prev: any) => [
         ...prev,
-        { text: message, sender: user?.name },
+        { text: message.text, sender: message.sender }
       ]);
     });
 
@@ -31,7 +31,7 @@ const CallChat = ({ setShowModal }: CallChatProps) => {
 
   const sendMessage = () => {
     if (text.trim()) {
-      socket.emit("message", text);
+      socket.emit("message", { text, sender: user?.name });
       setText("");
     }
   };
