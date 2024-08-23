@@ -1,7 +1,7 @@
-import { useContext, useState, useEffect } from "react";
+import { useContext, useState } from "react";
 import { BsSendFill } from "react-icons/bs";
 import { IoMdClose } from "react-icons/io";
-import { ChatContext, AuthContext } from "../../context";
+import { AuthContext } from "../../context";
 import { socket } from "../../config";
 import { Modal } from "../ui";
 
@@ -10,30 +10,14 @@ type CallChatProps = {
 };
 
 const CallChat = ({ setShowModal }: CallChatProps) => {
-  const { setMessages } = useContext(ChatContext);
   const { user } = useContext(AuthContext);
   const [text, setText] = useState<string>("");
-
-  useEffect(() => {
-    // Listening for incoming chat messages
-    socket.on("message", (message) => {
-      console.log(message)
-      setMessages((prev: any) => [
-        ...prev,
-        { text: message.text, sender: message.sender }
-      ]);
-    });
-
-    // Cleanup on component unmount
-    return () => {
-      socket.off("message");
-    };
-  }, [setMessages]);
 
   const sendMessage = () => {
     if (text.trim()) {
       socket.emit("message", { text, sender: user?.name });
       setText("");
+      setShowModal("");
     }
   };
 
