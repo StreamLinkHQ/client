@@ -5,7 +5,7 @@ import {
   useLocalScreenShare,
   useRoom,
 } from "@huddle01/react/hooks";
-import { Audio, Video } from "@huddle01/react/components";
+import { Video } from "@huddle01/react/components";
 import {
   BsCameraVideo,
   BsCameraVideoOff,
@@ -14,28 +14,26 @@ import {
 } from "react-icons/bs";
 import { LuScreenShare, LuScreenShareOff } from "react-icons/lu";
 import { IoChatbubblesOutline } from "react-icons/io5";
-import { MdCallEnd } from "react-icons/md";
-import  CallChat from "./call-chat";
+import { MdCallEnd, MdFlipCameraIos } from "react-icons/md";
+import CallChat from "./call-chat";
 
 type CallControlsProps = {
   userType: string | null;
+  // eslint-disable-next-line @typescript-eslint/ban-types
   setJoin: Function;
 };
 
 const CallControls = ({ userType, setJoin }: CallControlsProps) => {
   const [showChatInput, setShowChatInput] = useState<boolean>(false);
+  const [showBackCamera, setShowBackCamera] = useState<boolean>(false);
   const {
     stream: videoStream,
     enableVideo,
     disableVideo,
     isVideoOn,
+    changeVideoSource,
   } = useLocalVideo();
-  const {
-    stream: audioStream,
-    enableAudio,
-    disableAudio,
-    isAudioOn,
-  } = useLocalAudio();
+  const { enableAudio, disableAudio, isAudioOn } = useLocalAudio();
   const { startScreenShare, stopScreenShare, shareStream } =
     useLocalScreenShare();
 
@@ -45,11 +43,32 @@ const CallControls = ({ userType, setJoin }: CallControlsProps) => {
     },
   });
 
+  const switchCamera = () => {
+    console.log("bbbbb");
+    changeVideoSource("environment");
+    setShowBackCamera(true);
+  };
+  const switchCameraBack = () => {
+    console.log("ddddd");
+    changeVideoSource("front");
+    setShowBackCamera(false);
+  };
+
   return (
     <>
       {videoStream && <Video stream={videoStream} />}
-      <div className="absolute left-5 bottom-5 flex flex-row items-center z-50 text-yellow">
+      <div className="absolute inset-x-5 bottom-5 flex flex-row items-center z-50 text-yellow">
         <div className="flex flex-row items-center">
+          {videoStream && (
+            <div
+              className="block text-2xl border border-yellow rounded-full p-2.5 bg-[#222] md:block lg:hidden"
+              onClick={() => {
+                showBackCamera ? switchCameraBack() : switchCamera();
+              }}
+            >
+              <MdFlipCameraIos />
+            </div>
+          )}
           <div
             className="mx-1"
             onClick={() => {
@@ -82,7 +101,6 @@ const CallControls = ({ userType, setJoin }: CallControlsProps) => {
               </div>
             )}
           </div>
-          {audioStream && <Audio stream={audioStream} />}
           {userType === "host" && (
             <div
               onClick={() => {
@@ -115,8 +133,8 @@ const CallControls = ({ userType, setJoin }: CallControlsProps) => {
           </button>
         </div>
       </div>
-      {showChatInput && <CallChat setShowModal={setShowChatInput}/>}
-      </>
+      {showChatInput && <CallChat setShowModal={setShowChatInput} />}
+    </>
   );
 };
 

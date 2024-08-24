@@ -19,6 +19,7 @@ const Peer = ({ peerId }: PeerProps) => {
       {videoStream && (
         <Video
           stream={videoStream}
+          autoPlay
           className={` w-full aspect-w-16 aspect-h-9 rounded-lg shadow-lg`}
         />
       )}

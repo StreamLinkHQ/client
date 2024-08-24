@@ -9,6 +9,7 @@ import Peer from "./peer";
 
 type ContainerProps = {
   userType: string | null;
+  // eslint-disable-next-line @typescript-eslint/ban-types
   setJoin: Function;
   meetingId: string | undefined;
 };
