@@ -5,7 +5,7 @@ import {
   useLocalScreenShare,
   useRoom,
   useDevices,
-  useLocalMedia
+  useLocalMedia,
 } from "@huddle01/react/hooks";
 import { Video } from "@huddle01/react/components";
 import {
@@ -27,7 +27,7 @@ type CallControlsProps = {
 
 const CallControls = ({ userType, setJoin }: CallControlsProps) => {
   const [showChatInput, setShowChatInput] = useState<boolean>(false);
-  const [showBackCamera] = useState<boolean>(false);
+  const [showBackCamera, setShowBackCamera] = useState<boolean>(false);
   const {
     stream: videoStream,
     enableVideo,
@@ -38,8 +38,8 @@ const CallControls = ({ userType, setJoin }: CallControlsProps) => {
   const { startScreenShare, stopScreenShare, shareStream } =
     useLocalScreenShare();
 
-    const { replaceStream } = useLocalMedia();
-    const { setPreferredDevice } = useDevices({ type: 'cam' });
+  const { replaceStream } = useLocalMedia();
+  const { setPreferredDevice } = useDevices({ type: "cam" });
 
   const { leaveRoom } = useRoom({
     onLeave: () => {
@@ -48,7 +48,7 @@ const CallControls = ({ userType, setJoin }: CallControlsProps) => {
   });
 
   const switchToEnvironment = async (facingMode: "environment" | "user") => {
-    if( !isVideoOn) return;
+    if (!isVideoOn) return;
     const stream = await navigator.mediaDevices.getUserMedia({
       video: {
         facingMode: facingMode,
@@ -56,22 +56,25 @@ const CallControls = ({ userType, setJoin }: CallControlsProps) => {
     });
     const deviceId = stream?.getVideoTracks()[0]?.getSettings().deviceId;
     if (!deviceId) {
-      throw new Error('This must never happen, a bug in browser');
+      throw new Error("This must never happen, a bug in browser");
     }
     setPreferredDevice(deviceId);
-    replaceStream('video', stream).catch(console.error);
+    setShowBackCamera(showBackCamera ? false : true);
+    replaceStream("video", stream).catch(console.error);
   };
   return (
     <>
       {videoStream && <Video stream={videoStream} />}
       <div className="absolute inset-x-5 bottom-5 flex flex-row items-center z-50 text-yellow">
-      <p>Current Camera: {showBackCamera ? "Back" : "Front"}</p>
+        <p>Current Camera: {showBackCamera ? "Back" : "Front"}</p>
         <div className="flex flex-row items-center">
           {videoStream && (
             <div
               className="block text-2xl border border-yellow rounded-full p-2.5 bg-[#222] md:block lg:block"
               onClick={() => {
-                showBackCamera ? switchToEnvironment("environment") : switchToEnvironment("user");
+                showBackCamera
+                  ? switchToEnvironment("environment")
+                  : switchToEnvironment("user");
               }}
             >
               <MdFlipCameraIos />
