@@ -43,14 +43,14 @@ const CallControls = ({ userType, setJoin }: CallControlsProps) => {
     },
   });
 
-  const switchCamera = () => {
+  const switchCamera = async() => {
     console.log("bbbbb");
-    changeVideoSource("back");
+   await changeVideoSource("environment");
     setShowBackCamera(true);
   };
-  const switchCameraBack = () => {
+  const switchCameraBack = async() => {
     console.log("ddddd");
-    changeVideoSource("front");
+    await changeVideoSource("front");
     setShowBackCamera(false);
   };
 
