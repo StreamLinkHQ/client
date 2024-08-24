@@ -4,6 +4,7 @@ import {
   useLocalAudio,
   useLocalScreenShare,
   useRoom,
+  useDevices
 } from "@huddle01/react/hooks";
 import { Video } from "@huddle01/react/components";
 import {
@@ -36,7 +37,7 @@ const CallControls = ({ userType, setJoin }: CallControlsProps) => {
   const { enableAudio, disableAudio, isAudioOn } = useLocalAudio();
   const { startScreenShare, stopScreenShare, shareStream } =
     useLocalScreenShare();
-
+    const { setPreferredDevice } = useDevices({ type: 'cam' });
   const { leaveRoom } = useRoom({
     onLeave: () => {
       setJoin(false);
@@ -54,26 +55,49 @@ const CallControls = ({ userType, setJoin }: CallControlsProps) => {
   //   setShowBackCamera(false);
   // };
 
+  console.log(isVideoOn)
+  const produceEnvironment = async () => {
+    if (isVideoOn) {
+      disableVideo();
+    }
+    setPreferredDevice('environment');
+    enableVideo().catch(console.error);
+  };
+
   const switchCamera = async () => {
     try {
       console.log("Switching to back camera...");
       await changeVideoSource("environment");
+      produceEnvironment()
       console.log("Back camera active");
       setShowBackCamera(true);
     } catch (error) {
       console.error("Error switching to back camera:", error);
     }
+   
+    navigator.mediaDevices.getUserMedia({
+      video: { facingMode: "environment" }
+    })
+      .then(stream => console.info({ stream }))
+      .catch(console.error);
+      
   };
 
-  const switchCameraBack = async () => {
+  const switchCameraBack = async() => {
     try {
       console.log("Switching to front camera...");
       await changeVideoSource("front");
+      produceEnvironment()
       console.log("Front camera active");
       setShowBackCamera(false);
     } catch (error) {
       console.error("Error switching to front camera:", error);
     }
+    navigator.mediaDevices.getUserMedia({
+      video: { facingMode: "environment" }
+    })
+      .then(stream => console.info({ stream }))
+      .catch(console.error);
   };
 
   return (
@@ -84,7 +108,7 @@ const CallControls = ({ userType, setJoin }: CallControlsProps) => {
         <div className="flex flex-row items-center">
           {videoStream && (
             <div
-              className="block text-2xl border border-yellow rounded-full p-2.5 bg-[#222] md:block lg:hidden"
+              className="block text-2xl border border-yellow rounded-full p-2.5 bg-[#222] md:block lg:block"
               onClick={() => {
                 showBackCamera ? switchCameraBack() : switchCamera();
               }}
