@@ -4,7 +4,8 @@ import {
   useLocalAudio,
   useLocalScreenShare,
   useRoom,
-  useDevices
+  useDevices,
+  useLocalMedia
 } from "@huddle01/react/hooks";
 import { Video } from "@huddle01/react/components";
 import {
@@ -32,72 +33,63 @@ const CallControls = ({ userType, setJoin }: CallControlsProps) => {
     enableVideo,
     disableVideo,
     isVideoOn,
-    changeVideoSource,
   } = useLocalVideo();
   const { enableAudio, disableAudio, isAudioOn } = useLocalAudio();
   const { startScreenShare, stopScreenShare, shareStream } =
     useLocalScreenShare();
+
+    const { fetchStream } = useLocalMedia();
     const { setPreferredDevice } = useDevices({ type: 'cam' });
+
   const { leaveRoom } = useRoom({
     onLeave: () => {
       setJoin(false);
     },
   });
 
-  // const switchCamera = async() => {
-  //   console.log("bbbbb");
-  //  await changeVideoSource("environment");
-  //   setShowBackCamera(true);
+  // const switchToEnvironment = async (facingMode: "environment" | "front") => {
+  //   if( !isVideoOn) return;
+  //   const stream = await navigator.mediaDevices.getUserMedia({
+  //     video: {
+  //       facingMode: facingMode,
+  //     },
+  //   });
+  //   const deviceId = stream?.getVideoTracks()[0]?.getSettings().deviceId;
+  //   if (!deviceId) {
+  //     throw new Error('This must never happen, a bug in browser');
+  //   }
+  //   setPreferredDevice(deviceId);
+  //   fetchStream(matchMedia("cam")).catch(console.error);
   // };
-  // const switchCameraBack = async() => {
-  //   console.log("ddddd");
-  //   await changeVideoSource("front");
-  //   setShowBackCamera(false);
-  // };
 
-  console.log(isVideoOn)
-  const produceEnvironment = async () => {
-    if (isVideoOn) {
-      disableVideo();
-    }
-    setPreferredDevice('environment');
-    enableVideo().catch(console.error);
-  };
 
-  const switchCamera = async () => {
+  const switchCamera = async (facingMode: "environment" | "front") => {
+    if (!isVideoOn) return;
+  
     try {
-      console.log("Switching to back camera...");
-      await changeVideoSource("environment");
-      produceEnvironment()
-      console.log("Back camera active");
-      setShowBackCamera(true);
+      // Get the new stream based on the selected facing mode
+      const stream = await navigator.mediaDevices.getUserMedia({
+        video: { facingMode },
+      });
+  
+      // Extract the deviceId from the stream
+      const deviceId = stream?.getVideoTracks()[0]?.getSettings().deviceId;
+  
+      if (!deviceId) {
+        throw new Error("Unable to access device ID. This might be a browser bug.");
+      }
+  
+      // Set the preferred device using the deviceId
+      setPreferredDevice(deviceId);
+  
+      // Fetch the new stream for the "cam" device type
+      await fetchStream({ mediaDeviceKind: "cam" });
+  
+      // Update the UI state
+      setShowBackCamera(facingMode === "environment");
     } catch (error) {
-      console.error("Error switching to back camera:", error);
+      console.error("Error switching camera:", error);
     }
-   
-    navigator.mediaDevices.getUserMedia({
-      video: { facingMode: "environment" }
-    })
-      .then(stream => console.info({ stream }))
-      .catch(console.error);
-      
-  };
-
-  const switchCameraBack = async() => {
-    try {
-      console.log("Switching to front camera...");
-      await changeVideoSource("front");
-      produceEnvironment()
-      console.log("Front camera active");
-      setShowBackCamera(false);
-    } catch (error) {
-      console.error("Error switching to front camera:", error);
-    }
-    navigator.mediaDevices.getUserMedia({
-      video: { facingMode: "environment" }
-    })
-      .then(stream => console.info({ stream }))
-      .catch(console.error);
   };
 
   return (
@@ -106,11 +98,11 @@ const CallControls = ({ userType, setJoin }: CallControlsProps) => {
       <div className="absolute inset-x-5 bottom-5 flex flex-row items-center z-50 text-yellow">
       <p>Current Camera: {showBackCamera ? "Back" : "Front"}</p>
         <div className="flex flex-row items-center">
-          {videoStream && (
+        {videoStream && (
             <div
               className="block text-2xl border border-yellow rounded-full p-2.5 bg-[#222] md:block lg:block"
               onClick={() => {
-                showBackCamera ? switchCameraBack() : switchCamera();
+                switchCamera(showBackCamera ? "front" : "environment");
               }}
             >
               <MdFlipCameraIos />
