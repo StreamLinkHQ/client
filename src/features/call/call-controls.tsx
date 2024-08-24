@@ -45,7 +45,7 @@ const CallControls = ({ userType, setJoin }: CallControlsProps) => {
 
   const switchCamera = () => {
     console.log("bbbbb");
-    changeVideoSource("environment");
+    changeVideoSource("back");
     setShowBackCamera(true);
   };
   const switchCameraBack = () => {
