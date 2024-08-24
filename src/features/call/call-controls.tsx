@@ -52,13 +52,14 @@ const CallControls = ({ userType, setJoin }: CallControlsProps) => {
     const stream = await navigator.mediaDevices.getUserMedia({
       video: {
         facingMode: facingMode,
-      },
+      },    
     });
     const deviceId = stream?.getVideoTracks()[0]?.getSettings().deviceId;
     if (!deviceId) {
       throw new Error("This must never happen, a bug in browser");
     }
     setPreferredDevice(deviceId);
+    console.log("bbbggb")
     setShowBackCamera(!showBackCamera);
     replaceStream("video", stream).catch(console.error);
   };
