@@ -43,21 +43,44 @@ const CallControls = ({ userType, setJoin }: CallControlsProps) => {
     },
   });
 
-  const switchCamera = async() => {
-    console.log("bbbbb");
-   await changeVideoSource("environment");
-    setShowBackCamera(true);
+  // const switchCamera = async() => {
+  //   console.log("bbbbb");
+  //  await changeVideoSource("environment");
+  //   setShowBackCamera(true);
+  // };
+  // const switchCameraBack = async() => {
+  //   console.log("ddddd");
+  //   await changeVideoSource("front");
+  //   setShowBackCamera(false);
+  // };
+
+  const switchCamera = async () => {
+    try {
+      console.log("Switching to back camera...");
+      await changeVideoSource("environment");
+      console.log("Back camera active");
+      setShowBackCamera(true);
+    } catch (error) {
+      console.error("Error switching to back camera:", error);
+    }
   };
-  const switchCameraBack = async() => {
-    console.log("ddddd");
-    await changeVideoSource("front");
-    setShowBackCamera(false);
+
+  const switchCameraBack = async () => {
+    try {
+      console.log("Switching to front camera...");
+      await changeVideoSource("front");
+      console.log("Front camera active");
+      setShowBackCamera(false);
+    } catch (error) {
+      console.error("Error switching to front camera:", error);
+    }
   };
 
   return (
     <>
       {videoStream && <Video stream={videoStream} />}
       <div className="absolute inset-x-5 bottom-5 flex flex-row items-center z-50 text-yellow">
+      <p>Current Camera: {showBackCamera ? "Back" : "Front"}</p>
         <div className="flex flex-row items-center">
           {videoStream && (
             <div
