@@ -46,7 +46,6 @@ const CallControls = ({ userType, setJoin }: CallControlsProps) => {
       setJoin(false);
     },
   });
-
   const switchToEnvironment = async (facingMode: "environment" | "user") => {
     if (!isVideoOn) return;
     const stream = await navigator.mediaDevices.getUserMedia({
@@ -59,19 +58,19 @@ const CallControls = ({ userType, setJoin }: CallControlsProps) => {
       throw new Error("This must never happen, a bug in browser");
     }
     setPreferredDevice(deviceId);
-    console.log("bbbggb")
-    setShowBackCamera(!showBackCamera);
     replaceStream("video", stream).catch(console.error);
+    enableVideo().catch(console.error);
+    setShowBackCamera(!showBackCamera);
+
   };
   return (
     <>
       {videoStream && <Video stream={videoStream} />}
       <div className="absolute inset-x-5 bottom-5 flex flex-row items-center z-50 text-yellow">
-        <p>Current Camera: {showBackCamera ? "Back" : "Front"}</p>
         <div className="flex flex-row items-center">
           {videoStream && (
             <div
-              className="block text-2xl border border-yellow rounded-full p-2.5 bg-[#222] md:block lg:block"
+              className="block text-2xl border border-yellow rounded-full p-2.5 bg-[#222] md:block lg:hidden"
               onClick={() => {
                 showBackCamera
                   ? switchToEnvironment("environment")
