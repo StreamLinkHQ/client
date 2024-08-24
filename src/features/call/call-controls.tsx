@@ -59,7 +59,7 @@ const CallControls = ({ userType, setJoin }: CallControlsProps) => {
       throw new Error("This must never happen, a bug in browser");
     }
     setPreferredDevice(deviceId);
-    setShowBackCamera(showBackCamera ? false : true);
+    setShowBackCamera(!showBackCamera);
     replaceStream("video", stream).catch(console.error);
   };
   return (
